@@ -1,0 +1,19 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Large data
+data/raw/sar/
+data/raw/*.tif
+data/raw/*.tiff
+data/raw/soil_properties
+
+# OS files
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Results (optional)
+results/
