@@ -130,6 +130,7 @@ cd irrigation_project
 pip install -r requirements.txt
 
 python src/main.py
+```
 
 
 ⸻
