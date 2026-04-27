@@ -15,5 +15,3 @@ data/raw/soil_properties
 # Jupyter
 .ipynb_checkpoints/
 
-# Results (optional)
-results/

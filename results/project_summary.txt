@@ -1,0 +1,21 @@
+SMART IRRIGATION SYSTEM
+
+RMSE: 0.0095
+
+Comparison:
+              scheduler  total_irrigation  stress_days  irrigated_days  water_saved_vs_baseline  water_saving_percent
+               Baseline             2.560           64              64                    0.000                  0.00
+Smart SAR + Uncertainty             1.859            0             196                    0.701                 27.38
+  Batch Smart Scheduler             1.859            0              71                    0.701                 27.38
+
+Batch:
+Total: 1.8590
+Days: 71
+
+Next 5 Days:
+ forecast_day  forecast_rainfall  forecast_temperature  predicted_soil_moisture  uncertainty  risk_adjusted_moisture  irrigation_mm  irrigation_liters  adjusted_moisture
+            1                0.0                  33.4                   0.5993       0.0236                  0.5899         0.0151              61.31             0.6091
+            2                0.0                  33.2                   0.5979       0.0174                  0.5909         0.0141              56.94             0.6070
+            3                0.0                  32.3                   0.5988       0.0172                  0.5919         0.0131              53.01             0.6073
+            4                0.0                  31.9                   0.5991       0.0172                  0.5922         0.0128              51.69             0.6074
+            5                0.0                  31.4                   0.5986       0.0137                  0.5931         0.0119              48.09             0.6063
