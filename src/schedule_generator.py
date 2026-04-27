@@ -20,21 +20,28 @@ def generate_future_schedule(
     area_unit="acres",
     days_ahead=5,
     max_irrigation=0.05,
-    safety_margin=0.015,
-    irrigation_efficiency=0.65
+    safety_margin=0.005,
+    irrigation_efficiency=0.65,
+    future_forecast=None
 ):
-    """
-    Generate future irrigation schedule with uncertainty-aware output.
-    """
     history = df.copy().reset_index(drop=True)
     future_rows = []
 
+    moisture_col = "sar_corrected_moisture" if "sar_corrected_moisture" in history.columns else "soil_moisture"
+
     adjusted_threshold = threshold + safety_margin
+    uncertainty_weight = 0.4
 
     for day_idx in range(1, days_ahead + 1):
-        future_rainfall = 0.0
-        future_temperature = history["temperature"].tail(3).mean()
-        current_soil_moisture = history.iloc[-1]["soil_moisture"]
+
+        if future_forecast is not None:
+            future_rainfall = future_forecast[day_idx - 1]["rainfall"]
+            future_temperature = future_forecast[day_idx - 1]["temperature"]
+        else:
+            future_rainfall = 0.0
+            future_temperature = history["temperature"].tail(7).mean()
+
+        current_soil_moisture = history.iloc[-1][moisture_col]
 
         feature_dict = {
             "rainfall": future_rainfall,
@@ -43,7 +50,7 @@ def generate_future_schedule(
         }
 
         for lag in range(1, 8):
-            feature_dict[f"soil_moisture_lag_{lag}"] = history.iloc[-lag]["soil_moisture"]
+            feature_dict[f"soil_moisture_lag_{lag}"] = history.iloc[-lag][moisture_col]
             feature_dict[f"rainfall_lag_{lag}"] = history.iloc[-lag]["rainfall"]
             feature_dict[f"temperature_lag_{lag}"] = history.iloc[-lag]["temperature"]
 
@@ -54,15 +61,12 @@ def generate_future_schedule(
 
         features_array = features_df.to_numpy()
 
-        # Mean prediction from forest
         pred = model.predict(features_array)[0]
 
-        # Uncertainty from tree spread
         tree_preds = [tree.predict(features_array)[0] for tree in model.estimators_]
         uncertainty = pd.Series(tree_preds).std()
 
-        # Risk-aware prediction
-        risk_adjusted_pred = pred - uncertainty
+        risk_adjusted_pred = pred - uncertainty_weight * uncertainty
 
         if risk_adjusted_pred < adjusted_threshold:
             needed = adjusted_threshold - risk_adjusted_pred
@@ -75,6 +79,8 @@ def generate_future_schedule(
 
         future_rows.append({
             "forecast_day": day_idx,
+            "forecast_rainfall": round(future_rainfall, 2),
+            "forecast_temperature": round(future_temperature, 2),
             "predicted_soil_moisture": round(pred, 4),
             "uncertainty": round(uncertainty, 4),
             "risk_adjusted_moisture": round(risk_adjusted_pred, 4),
@@ -87,6 +93,7 @@ def generate_future_schedule(
             "date": None,
             "rainfall": future_rainfall,
             "soil_moisture": adjusted_moisture,
+            "sar_corrected_moisture": adjusted_moisture,
             "temperature": future_temperature
         }
 

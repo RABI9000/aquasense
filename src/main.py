@@ -1,5 +1,6 @@
 import json
 import os
+
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -7,8 +8,14 @@ from baseline_scheduler import run_baseline_scheduler
 from ml_model import train_model
 from smart_scheduler import run_smart_scheduler
 from schedule_generator import generate_future_schedule
-from sar_processor import extract_mean_backscatter, compute_sar_proxy
-from sar_correction import build_single_scene_sar_proxy_moisture, apply_sar_correction
+from weather_api import get_weather_forecast
+from evaluation import evaluate_schedulers
+from batch_scheduler import create_batch_irrigation_schedule
+
+from sar_integration import (
+    merge_calibrated_sar_with_dataset,
+    apply_sar_correction
+)
 
 
 def get_farm_area():
@@ -16,182 +23,156 @@ def get_farm_area():
         try:
             area = float(input("Enter farm size: "))
             if area <= 0:
-                print("Farm size must be greater than 0.")
                 continue
             break
-        except ValueError:
-            print("Please enter a valid numeric value.")
+        except:
+            continue
 
-    while True:
-        unit = input("Enter unit (acres/hectares): ").strip().lower()
-        if unit in ["acres", "acre"]:
-            unit = "acres"
-            break
-        elif unit in ["hectares", "hectare", "ha"]:
-            unit = "hectares"
-            break
-        else:
-            print("Please enter either 'acres' or 'hectares'.")
+    unit = input("Enter unit (acres/hectares): ").strip().lower()
+    if unit in ["hectares", "ha"]:
+        return area, "hectares"
+    return area, "acres"
 
-    return area, unit
+
+def get_future_weather_forecast(days_ahead=5):
+    use_api = input("Use weather API? (yes/no): ").lower()
+
+    if use_api in ["yes", "y"]:
+        lat = float(input("Enter latitude: "))
+        lon = float(input("Enter longitude: "))
+
+        forecast = get_weather_forecast(lat, lon, days_ahead)
+
+        print("\n=== WEATHER FORECAST ===")
+        for i, d in enumerate(forecast, 1):
+            print(f"Day {i}: Rain={d['rainfall']} Temp={d['temperature']}")
+
+        return forecast
+
+    return None
 
 
 def main():
+    os.makedirs("results/plots", exist_ok=True)
+
+    # Load data
     df = pd.read_csv("data/clean/final_dataset.csv")
     df["date"] = pd.to_datetime(df["date"])
 
-    with open("data/clean/soil_properties.json", "r") as f:
-        soil = json.load(f)
+    sar_df = pd.read_csv("data/clean/sar_calibrated.csv")
+    df = merge_calibrated_sar_with_dataset(df, sar_df)
+    df = apply_sar_correction(df, alpha=0.3)
 
-    fc = soil["fc"]
-    wp = soil["wp"]
-    available_water = soil["available_water"]
+    # Soil
+    soil = json.load(open("data/clean/soil_properties.json"))
+    fc, wp, aw = soil["fc"], soil["wp"], soil["available_water"]
+
+    print("\n=== SOIL ===")
+    print(f"FC={fc:.3f}, WP={wp:.3f}, AW={aw:.3f}")
 
     threshold = df["soil_moisture"].quantile(0.25)
     target = df["soil_moisture"].quantile(0.60)
 
-    area_value, area_unit = get_farm_area()
+    print("\n=== THRESHOLDS ===")
+    print(f"Threshold={threshold:.3f}, Target={target:.3f}")
 
-    # BASELINE
+    area, unit = get_farm_area()
+    forecast = get_future_weather_forecast()
+
+    # Baseline
     baseline_df = run_baseline_scheduler(df, threshold, target)
-    baseline_stress = (baseline_df["soil_moisture"] < threshold).sum()
-    baseline_total = baseline_df["irrigation_amount"].sum()
 
-    # ML MODEL
-    model, feature_columns = train_model()
+    # ML
+    model, features, rmse = train_model(df)
 
-    # SMART
-    smart_df = run_smart_scheduler(
-        df,
-        model,
-        feature_columns,
-        threshold,
-        target
+    # Smart
+    smart_df = run_smart_scheduler(df, model, features, threshold, target)
+
+    # Batch
+    batch_df = create_batch_irrigation_schedule(smart_df)
+
+    # Evaluation
+    comparison = evaluate_schedulers(
+        baseline_df, smart_df, threshold, batch_df
     )
 
-    smart_total = smart_df["smart_irrigation"].sum()
-    smart_stress = (smart_df["adjusted_moisture"] < threshold).sum()
-
-    # FUTURE SCHEDULE
-    schedule_df = generate_future_schedule(
-        df=df,
-        model=model,
-        feature_columns=feature_columns,
-        threshold=threshold,
-        target=target,
-        area_value=area_value,
-        area_unit=area_unit,
-        days_ahead=5
+    # Future schedule
+    schedule = generate_future_schedule(
+        df, model, features, threshold, target,
+        area_value=area, area_unit=unit,
+        future_forecast=forecast
     )
 
-    print("\n=== FINAL COMPARISON ===")
-    print(f"Baseline Irrigation: {baseline_total:.4f}")
-    print(f"Smart Irrigation: {smart_total:.4f}")
-    print(f"Baseline Stress Days: {baseline_stress}")
-    print(f"Smart Stress Days: {smart_stress}")
+    # Summary prints
+    print("\n=== FINAL RESULTS ===")
+    print(comparison.to_string(index=False))
 
-    print(f"\n=== NEXT 5-DAY IRRIGATION SCHEDULE ({area_value} {area_unit}) ===")
-    print(schedule_df.to_string(index=False))
+    print("\n=== NEXT 5-DAY SCHEDULE ===")
+    print(schedule.to_string(index=False))
 
-    os.makedirs("results", exist_ok=True)
+    print("\n=== BATCH SUMMARY ===")
+    print(f"Total={batch_df['batch_irrigation'].sum():.4f}")
+    print(f"Days={(batch_df['batch_irrigation']>0).sum()}")
+
+    # Save CSV
     baseline_df.to_csv("results/baseline.csv", index=False)
     smart_df.to_csv("results/smart.csv", index=False)
-    schedule_df.to_csv("results/future_schedule.csv", index=False)
+    batch_df.to_csv("results/batch.csv", index=False)
+    schedule.to_csv("results/future.csv", index=False)
+    comparison.to_csv("results/comparison.csv", index=False)
 
-    # vv_path = "data/raw/s1a-iw-grd-vv-20231227t005504-20231227t005529-051833-0642ef-001.tiff"
-    # vh_path = "data/raw/s1a-iw-grd-vh-20231227t005504-20231227t005529-051833-0642ef-002.tiff"
+    # -------- PLOTS --------
 
-    # vv_mean = extract_mean_backscatter(vv_path)
-    # vh_mean = extract_mean_backscatter(vh_path)
-    # sar_proxy = compute_sar_proxy(vv_mean, vh_mean)
+    # Moisture
+    plt.figure()
+    plt.plot(df["date"], df["soil_moisture"])
+    plt.plot(df["date"], smart_df["predicted_moisture"])
+    plt.title("Moisture")
+    plt.savefig("results/plots/moisture.png")
+    plt.close()
 
-    # print("\n=== SAR VALUES ===")
-    # print(f"VV Mean: {vv_mean}")
-    # print(f"VH Mean: {vh_mean}")  
-    # print(f"SAR Proxy: {sar_proxy:.4f}")
-    
-        # -----------------------------
-    # SAR single-scene integration
-    # -----------------------------
-    vv_path = "data/raw/s1a-iw-grd-vv-20231227t005504-20231227t005529-051833-0642ef-001.tiff"
-    vh_path = "data/raw/s1a-iw-grd-vh-20231227t005504-20231227t005529-051833-0642ef-002.tiff"
+    # Baseline
+    plt.figure()
+    plt.bar(df["date"], baseline_df["irrigation_amount"])
+    plt.title("Baseline")
+    plt.savefig("results/plots/baseline.png")
+    plt.close()
 
-    vv_mean = extract_mean_backscatter(vv_path)
-    vh_mean = extract_mean_backscatter(vh_path)
-    sar_proxy = compute_sar_proxy(vv_mean, vh_mean)
+    # Smart
+    plt.figure()
+    plt.bar(df["date"], smart_df["smart_irrigation"])
+    plt.title("Smart")
+    plt.savefig("results/plots/smart.png")
+    plt.close()
 
-    sar_date = pd.Timestamp("2023-12-27")
+    # Batch
+    plt.figure()
+    plt.bar(df["date"], batch_df["batch_irrigation"])
+    plt.title("Batch")
+    plt.savefig("results/plots/batch.png")
+    plt.close()
 
-    sar_info = build_single_scene_sar_proxy_moisture(
-        df=df,
-        sar_date=sar_date,
-        sar_proxy=sar_proxy
-    )
+    # Comparison
+    plt.figure()
+    plt.bar(comparison["scheduler"], comparison["total_irrigation"])
+    plt.title("Comparison")
+    plt.savefig("results/plots/comparison.png")
+    plt.close()
 
-    observed_sm_on_sar_date = float(df.loc[df["date"] == sar_date, "soil_moisture"].iloc[0])
+    # -------- SUMMARY FILE --------
 
-    corrected_sm = apply_sar_correction(
-        predicted_moisture=observed_sm_on_sar_date,
-        sar_proxy_moisture=sar_info["sar_proxy_moisture"],
-        model_weight=0.7,
-        sar_weight=0.3
-    )
+    with open("results/project_summary.txt", "w") as f:
+        f.write("SMART IRRIGATION SYSTEM\n\n")
+        f.write(f"RMSE: {rmse:.4f}\n\n")
 
-    print("\n=== SAR SINGLE-SCENE SUMMARY ===")
-    print(f"SAR Date: {sar_date.date()}")
-    print(f"VV Mean: {vv_mean:.4f}")
-    print(f"VH Mean: {vh_mean:.4f}")
-    print(f"SAR Proxy: {sar_proxy:.4f}")
-    print(f"Normalized SAR Proxy: {sar_info['normalized_proxy']:.4f}")
-    print(f"Observed Soil Moisture on SAR Date: {observed_sm_on_sar_date:.4f}")
-    print(f"SAR Proxy Moisture Estimate: {sar_info['sar_proxy_moisture']:.4f}")
-    print(f"SAR-Corrected Moisture: {corrected_sm:.4f}")
-    
-     
-    # Plot 1: observed vs predicted
-    plt.figure(figsize=(12, 5))
-    plt.plot(df["date"], df["soil_moisture"], label="Observed")
-    plt.plot(df["date"], smart_df["predicted_moisture"], label="Predicted")
-    plt.axhline(threshold, linestyle="--", label="Threshold")
-    plt.legend()
-    plt.tight_layout()
-    plt.show()
+        f.write("Comparison:\n")
+        f.write(comparison.to_string(index=False))
+        f.write("\n\nBatch:\n")
+        f.write(f"Total: {batch_df['batch_irrigation'].sum():.4f}\n")
+        f.write(f"Days: {(batch_df['batch_irrigation']>0).sum()}\n\n")
 
-    # Plot 2: baseline irrigation
-    plt.figure(figsize=(12, 4))
-    plt.bar(baseline_df["date"], baseline_df["irrigation_amount"])
-    plt.title("Baseline Irrigation Schedule")
-    plt.xlabel("Date")
-    plt.ylabel("Irrigation Amount")
-    plt.tight_layout()
-    plt.show()
-
-    # Plot 3: smart irrigation
-    plt.figure(figsize=(12, 4))
-    plt.bar(smart_df["date"], smart_df["smart_irrigation"])
-    plt.title("Smart Irrigation Schedule")
-    plt.xlabel("Date")
-    plt.ylabel("Irrigation Amount")
-    plt.tight_layout()
-    plt.show()
-
-    # Plot 4: rainfall
-    plt.figure(figsize=(12, 4))
-    plt.bar(df["date"], df["rainfall"])
-    plt.title("Daily Rainfall")
-    plt.xlabel("Date")
-    plt.ylabel("Rainfall")
-    plt.tight_layout()
-    plt.show()
-
-    # Plot 5: temperature
-    plt.figure(figsize=(12, 4))
-    plt.plot(df["date"], df["temperature"])
-    plt.title("Daily Temperature")
-    plt.xlabel("Date")
-    plt.ylabel("Temperature")
-    plt.tight_layout()
-    plt.show()
+        f.write("Next 5 Days:\n")
+        f.write(schedule.to_string(index=False))
 
 
 if __name__ == "__main__":

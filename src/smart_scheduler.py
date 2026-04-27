@@ -8,15 +8,12 @@ def run_smart_scheduler(
     threshold,
     target,
     max_irrigation=0.05,
-    safety_margin=0.015,
+    safety_margin=0.005,
     irrigation_efficiency=0.65
 ):
-    """
-    Smart irrigation scheduler using ML-predicted next-day soil moisture
-    with uncertainty-aware decision making.
-    """
-
     out = df.copy()
+
+    moisture_col = "sar_corrected_moisture" if "sar_corrected_moisture" in out.columns else "soil_moisture"
 
     irrigation_amounts = []
     predicted_moisture = []
@@ -28,22 +25,21 @@ def run_smart_scheduler(
     for i in range(len(out)):
         if i < 7:
             irrigation_amounts.append(0.0)
-            predicted_moisture.append(out.loc[i, "soil_moisture"])
-            adjusted_moisture.append(out.loc[i, "soil_moisture"])
+            predicted_moisture.append(out.loc[i, moisture_col])
+            adjusted_moisture.append(out.loc[i, moisture_col])
             uncertainties.append(0.0)
             continue
 
         row = out.iloc[i]
 
-        # Build features
         feature_dict = {
             "rainfall": row["rainfall"],
-            "soil_moisture": row["soil_moisture"],
+            "soil_moisture": row[moisture_col],
             "temperature": row["temperature"],
         }
 
         for lag in range(1, 8):
-            feature_dict[f"soil_moisture_lag_{lag}"] = out.loc[i - lag, "soil_moisture"]
+            feature_dict[f"soil_moisture_lag_{lag}"] = out.loc[i - lag, moisture_col]
             feature_dict[f"rainfall_lag_{lag}"] = out.loc[i - lag, "rainfall"]
             feature_dict[f"temperature_lag_{lag}"] = out.loc[i - lag, "temperature"]
 
@@ -52,10 +48,8 @@ def run_smart_scheduler(
             columns=feature_columns
         )
 
-        # ✅ FIX: convert to numpy (removes sklearn warning)
         features_array = features_df.to_numpy()
 
-        # -------- Uncertainty --------
         tree_preds = [tree.predict(features_array)[0] for tree in model.estimators_]
 
         pred = sum(tree_preds) / len(tree_preds)
@@ -64,8 +58,8 @@ def run_smart_scheduler(
         predicted_moisture.append(pred)
         uncertainties.append(uncertainty)
 
-        # -------- Risk-aware decision --------
-        risk_adjusted_pred = pred - uncertainty
+        uncertainty_weight = 0.4
+        risk_adjusted_pred = pred - uncertainty_weight * uncertainty
 
         if risk_adjusted_pred < adjusted_threshold:
             needed = adjusted_threshold - risk_adjusted_pred
@@ -75,7 +69,6 @@ def run_smart_scheduler(
 
         irrigation_amounts.append(irrigation)
 
-        # Apply efficiency
         adjusted = pred + irrigation * irrigation_efficiency
         adjusted_moisture.append(adjusted)
 
