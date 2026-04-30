@@ -169,6 +169,8 @@ def main():
     print("\n=== BATCH SUMMARY ===")
     print(f"Total={batch_df['batch_irrigation'].sum():.4f}")
     print(f"Days={(batch_df['batch_irrigation']>0).sum()}")
+   # print(batch_df[["date", "batch_irrigation"]])
+    print(batch_df[batch_df["batch_irrigation"] > 0])
 
     # -----------------------------
     # Save CSV
