@@ -16,6 +16,7 @@ def generate_future_schedule(
     feature_columns,
     threshold,
     target,
+    crop_kc=1.0,   # ✅ NEW
     area_value=1.0,
     area_unit="acres",
     days_ahead=5,
@@ -68,9 +69,14 @@ def generate_future_schedule(
 
         risk_adjusted_pred = pred - uncertainty_weight * uncertainty
 
+        # -------- Crop-aware irrigation --------
         if risk_adjusted_pred < adjusted_threshold:
             needed = adjusted_threshold - risk_adjusted_pred
-            irrigation_mm = max(0.0, min(needed, max_irrigation))
+
+            # ✅ APPLY CROP EFFECT
+            irrigation_mm = needed * crop_kc
+
+            irrigation_mm = max(0.0, min(irrigation_mm, max_irrigation))
         else:
             irrigation_mm = 0.0
 

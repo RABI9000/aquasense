@@ -7,6 +7,7 @@ def run_smart_scheduler(
     feature_columns,
     threshold,
     target,
+    crop_kc=1.0,   # ✅ NEW
     max_irrigation=0.05,
     safety_margin=0.005,
     irrigation_efficiency=0.65
@@ -58,12 +59,18 @@ def run_smart_scheduler(
         predicted_moisture.append(pred)
         uncertainties.append(uncertainty)
 
+        # -------- Risk-aware --------
         uncertainty_weight = 0.4
         risk_adjusted_pred = pred - uncertainty_weight * uncertainty
 
+        # -------- Crop-aware irrigation --------
         if risk_adjusted_pred < adjusted_threshold:
             needed = adjusted_threshold - risk_adjusted_pred
-            irrigation = max(0.0, min(needed, max_irrigation))
+
+            # ✅ APPLY CROP EFFECT HERE
+            irrigation = needed * crop_kc
+
+            irrigation = max(0.0, min(irrigation, max_irrigation))
         else:
             irrigation = 0.0
 
