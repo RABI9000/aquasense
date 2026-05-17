@@ -5,13 +5,14 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 from baseline_scheduler import run_baseline_scheduler
-from ml_model import train_model
+from ml_model import train_model, run_model_comparison
 from smart_scheduler import run_smart_scheduler
 from schedule_generator import generate_future_schedule
 from weather_api import get_weather_forecast
 from evaluation import evaluate_schedulers
 from batch_scheduler import create_batch_irrigation_schedule
 from crop_manager import load_crop_dataset, get_crop_settings   # ✅ NEW
+from plotter import generate_all_plots
 
 from sar_integration import (
     merge_calibrated_sar_with_dataset,
@@ -19,48 +20,13 @@ from sar_integration import (
 )
 
 
-def get_farm_area():
-    while True:
-        user_input = input("Enter farm size (just number, e.g., 1): ").strip()
-
-        try:
-            area = float(user_input)
-            if area <= 0:
-                print("Enter a value > 0")
-                continue
-            break
-        except:
-            print("Invalid input. Enter only a number (e.g., 1)")
-
-    while True:
-        unit = input("Enter unit (acres/hectares): ").strip().lower()
-
-        if unit in ["acres", "acre"]:
-            return area, "acres"
-        elif unit in ["hectares", "hectare", "ha"]:
-            return area, "hectares"
-        else:
-            print("Enter 'acres' or 'hectares'")
-
-def get_future_weather_forecast(days_ahead=5):
-    use_api = input("Use weather API? (yes/no): ").lower()
-
-    if use_api in ["yes", "y"]:
-        lat = float(input("Enter latitude: "))
-        lon = float(input("Enter longitude: "))
-
+def get_future_weather_forecast(use_api, lat, lon, days_ahead=5):
+    if use_api:
         forecast = get_weather_forecast(lat, lon, days_ahead)
-
-        print("\n=== WEATHER FORECAST ===")
-        for i, d in enumerate(forecast, 1):
-            print(f"Day {i}: Rain={d['rainfall']} Temp={d['temperature']}")
-
         return forecast
-
     return None
 
-
-def main():
+def run_simulation(area, unit, use_api, lat, lon, crop_name, crop_stage):
     os.makedirs("results/plots", exist_ok=True)
 
     # -----------------------------
@@ -92,7 +58,7 @@ def main():
     # Crop selection (NEW)
     # -----------------------------
     crop_df = load_crop_dataset()
-    crop = get_crop_settings(crop_df)
+    crop = get_crop_settings(crop_df, crop_name, crop_stage)
 
     print("\n=== CROP SETTINGS ===")
     print(f"Crop: {crop['crop_name']}")
@@ -105,8 +71,7 @@ def main():
     # -----------------------------
     # Inputs
     # -----------------------------
-    area, unit = get_farm_area()
-    forecast = get_future_weather_forecast()
+    forecast = get_future_weather_forecast(use_api, lat, lon)
 
     # -----------------------------
     # Baseline
@@ -117,6 +82,9 @@ def main():
     # ML
     # -----------------------------
     model, features, rmse = train_model(df)
+    
+    # Run comparative analysis for UI/Research Paper
+    model_comparison_df = run_model_comparison(df)
 
     # -----------------------------
     # Smart (UPDATED)
@@ -173,13 +141,15 @@ def main():
     print(batch_df[batch_df["batch_irrigation"] > 0])
 
     # -----------------------------
-    # Save CSV
+    # Save CSV & Plots
     # -----------------------------
     baseline_df.to_csv("results/baseline.csv", index=False)
     smart_df.to_csv("results/smart.csv", index=False)
     batch_df.to_csv("results/batch.csv", index=False)
     schedule.to_csv("results/future.csv", index=False)
     comparison.to_csv("results/comparison.csv", index=False)
+    
+    generate_all_plots(baseline_df, smart_df, batch_df, comparison, schedule)
 
     # -----------------------------
     # Summary file
@@ -202,6 +172,17 @@ def main():
         f.write("Next 5 Days:\n")
         f.write(schedule.to_string(index=False))
 
+    return {
+        "rmse": rmse,
+        "comparison": comparison.to_dict(orient="records"),
+        "batch_total": float(batch_df['batch_irrigation'].sum()),
+        "batch_days": int((batch_df['batch_irrigation']>0).sum()),
+        "schedule": schedule.to_dict(orient="records"),
+        "crop": crop,
+        "model_comparison": model_comparison_df.to_dict(orient="records")
+    }
+
 
 if __name__ == "__main__":
-    main()
+    # Example test run
+    run_simulation(1, "acres", False, 0.0, 0.0, "wheat", "mid")
