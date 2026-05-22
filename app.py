@@ -41,4 +41,4 @@ def serve_plot(filename):
     return send_from_directory(os.path.abspath("results/plots"), filename)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5002)
