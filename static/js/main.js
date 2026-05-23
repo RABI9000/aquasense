@@ -51,8 +51,69 @@ const ICONS = {
     "cloud-snow": `<svg ${SVG_ATTRS}><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M8 15h.01"/><path d="M8 19h.01"/><path d="M12 17h.01"/><path d="M12 21h.01"/><path d="M16 15h.01"/><path d="M16 19h.01"/></svg>`,
     "cloud-lightning": `<svg ${SVG_ATTRS}><path d="M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973"/><path d="m13 12-3 5h4l-3 5"/></svg>`,
     ruler: `<svg ${SVG_ATTRS}><path d="M21.3 8.7 8.7 21.3a1 1 0 0 1-1.4 0l-5.6-5.6a1 1 0 0 1 0-1.4L14.3 1.7a1 1 0 0 1 1.4 0l5.6 5.6a1 1 0 0 1 0 1.4Z"/><path d="m7.5 10.5 2 2"/><path d="m10.5 7.5 2 2"/><path d="m13.5 4.5 2 2"/><path d="m4.5 13.5 2 2"/></svg>`,
-    trash: `<svg ${SVG_ATTRS}><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>`
+    trash: `<svg ${SVG_ATTRS}><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>`,
+    loader: `<svg ${SVG_ATTRS}><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>`,
+    "circle-dashed": `<svg ${SVG_ATTRS}><path d="M10.1 2.18a9.93 9.93 0 0 1 3.8 0"/><path d="M17.6 3.71a9.95 9.95 0 0 1 2.69 2.7"/><path d="M21.82 10.1a9.93 9.93 0 0 1 0 3.8"/><path d="M20.29 17.6a9.95 9.95 0 0 1-2.7 2.69"/><path d="M13.9 21.82a9.94 9.94 0 0 1-3.8 0"/><path d="M6.4 20.29a9.95 9.95 0 0 1-2.69-2.7"/><path d="M2.18 13.9a9.93 9.93 0 0 1 0-3.8"/><path d="M3.71 6.4a9.95 9.95 0 0 1 2.7-2.69"/></svg>`,
+    expand: `<svg ${SVG_ATTRS}><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="m21 3-7 7"/><path d="m3 21 7-7"/></svg>`,
+    info: `<svg ${SVG_ATTRS}><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>`,
+    sparkles: `<svg ${SVG_ATTRS}><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>`,
+    play: `<svg ${SVG_ATTRS}><polygon points="6 3 20 12 6 21 6 3"/></svg>`,
+    keyboard: `<svg ${SVG_ATTRS}><path d="M10 8h.01"/><path d="M12 12h.01"/><path d="M14 8h.01"/><path d="M16 12h.01"/><path d="M18 8h.01"/><path d="M6 8h.01"/><path d="M7 16h10"/><path d="M8 12h.01"/><rect width="20" height="16" x="2" y="4" rx="2"/></svg>`,
+    waves: `<svg ${SVG_ATTRS}><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>`,
+    "chevron-down": `<svg ${SVG_ATTRS}><path d="m6 9 6 6 6-6"/></svg>`,
+    "chevron-up": `<svg ${SVG_ATTRS}><path d="m18 15-6-6-6 6"/></svg>`,
+    moon: `<svg ${SVG_ATTRS}><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg>`,
+    globe: `<svg ${SVG_ATTRS}><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>`,
+    clock: `<svg ${SVG_ATTRS}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+
+    // CROP CATEGORY ICONS — simple, distinct line-style
+    "crop-cereal": `<svg ${SVG_ATTRS}><path d="M12 22V4"/><path d="M12 8c-2-1-4-1-5 0 1 2 3 3 5 3M12 8c2-1 4-1 5 0-1 2-3 3-5 3"/><path d="M12 13c-2-1-4-1-5 0 1 2 3 3 5 3M12 13c2-1 4-1 5 0-1 2-3 3-5 3"/><path d="M12 18c-2-1-4-1-5 0 1 2 3 3 5 3M12 18c2-1 4-1 5 0-1 2-3 3-5 3"/></svg>`,
+    "crop-rice": `<svg ${SVG_ATTRS}><path d="M12 22V8"/><ellipse cx="9" cy="6" rx="1.5" ry="3" transform="rotate(-25 9 6)"/><ellipse cx="15" cy="6" rx="1.5" ry="3" transform="rotate(25 15 6)"/><ellipse cx="12" cy="3" rx="1.5" ry="2.5"/><path d="M8 22h8"/></svg>`,
+    "crop-maize": `<svg ${SVG_ATTRS}><path d="M12 21c-3 0-5-3-5-9s2-9 5-9 5 3 5 9-2 9-5 9z"/><path d="M9 8v9M12 7v12M15 8v9"/><path d="M12 3c-1-1-3-1-4 0 1 2 3 2 4 2 1 0 3 0 4-2-1-1-3-1-4 0z"/></svg>`,
+    "crop-bean": `<svg ${SVG_ATTRS}><path d="M6 5c-2 3-2 7 0 11s7 5 11 3 5-7 3-11-7-5-11-3z"/><circle cx="10" cy="11" r="0.7" fill="currentColor"/><circle cx="14" cy="13" r="0.7" fill="currentColor"/></svg>`,
+    "crop-cotton": `<svg ${SVG_ATTRS}><circle cx="12" cy="9" r="3"/><circle cx="8" cy="12.5" r="2.5"/><circle cx="16" cy="12.5" r="2.5"/><circle cx="12" cy="15" r="2.8"/><path d="M12 18v3M10 21h4"/></svg>`,
+    "crop-sunflower": `<svg ${SVG_ATTRS}><circle cx="12" cy="10" r="2.5"/><path d="M12 4v2.5M12 13.5V16M6 10h2.5M15.5 10H18M7.7 5.7l1.7 1.7M14.6 12.6l1.7 1.7M7.7 14.3l1.7-1.7M14.6 7.4l1.7-1.7"/><path d="M12 16v6M9 19h6"/></svg>`,
+    "crop-sugarcane": `<svg ${SVG_ATTRS}><path d="M9 22V2"/><path d="M15 22V2"/><path d="M8 7h8M8 12h8M8 17h8"/></svg>`,
+    "crop-root": `<svg ${SVG_ATTRS}><path d="M12 22c-3 0-6-2.5-6-6.5S9 9 12 9s6 2.5 6 6.5-3 6.5-6 6.5z"/><path d="M12 9V3M9 5l3-2 3 2"/></svg>`,
+    "crop-onion": `<svg ${SVG_ATTRS}><path d="M12 22c-4 0-7-3-7-7 0-3 1-5 3-7 1 0 4 0 4 0s3 0 4 0c2 2 3 4 3 7 0 4-3 7-7 7z"/><path d="M9 12c1 2 2 6 3 9M15 12c-1 2-2 6-3 9"/><path d="M12 8V2"/></svg>`,
+    "crop-carrot": `<svg ${SVG_ATTRS}><path d="M3 21c5-3 11-7 14-12 1-2 0-4-2-5-5 3-9 9-12 14-1 1 0 4 0 3z"/><path d="M14 4c2-3 5-2 7-1-2 2-4 4-7 5"/><path d="M17 7c1-2 3-3 4-2-1 2-3 3-4 4"/></svg>`,
+    "crop-leafy": `<svg ${SVG_ATTRS}><circle cx="12" cy="13" r="7"/><path d="M5 13c2-2 5-3 7-3s5 1 7 3"/><path d="M7 10c1-1 3-2 5-2s4 1 5 2"/><path d="M9 7c1-.5 2-1 3-1s2 .5 3 1"/></svg>`,
+    "crop-tomato": `<svg ${SVG_ATTRS}><circle cx="12" cy="14" r="6"/><path d="M9 9l3 1 3-1M12 4c1 2 0 4-2 5M12 4c-1 2 0 4 2 5M12 4v6"/></svg>`,
+    "crop-apple": `<svg ${SVG_ATTRS}><path d="M12 21c-4 0-6-3-6-7 0-3 1-5 4-6 1 0 2 1 2 1s1-1 2-1c3 1 4 3 4 6 0 4-2 7-6 7z"/><path d="M12 7V3M14 4l-2 2"/></svg>`,
+    "crop-mango": `<svg ${SVG_ATTRS}><path d="M12 22c-3 0-6-2-7-6s0-9 3-12c2 1 5 3 8 5s5 4 4 7-4 6-8 6z"/><path d="M5 4l2 2"/></svg>`,
+    "crop-grape": `<svg ${SVG_ATTRS}><circle cx="12" cy="4" r="1.4"/><circle cx="9" cy="7.5" r="1.7"/><circle cx="15" cy="7.5" r="1.7"/><circle cx="7" cy="11" r="1.7"/><circle cx="12" cy="11" r="1.7"/><circle cx="17" cy="11" r="1.7"/><circle cx="9" cy="14.5" r="1.7"/><circle cx="15" cy="14.5" r="1.7"/><circle cx="12" cy="18" r="1.7"/></svg>`,
+    "crop-banana": `<svg ${SVG_ATTRS}><path d="M4 18c0 2 1 3 3 3 5 0 13-7 16-15-1-1-2-1-3-1-2 4-7 9-10 11-4 2-6-1-6 2z"/></svg>`,
+    "crop-coffee": `<svg ${SVG_ATTRS}><ellipse cx="12" cy="12" rx="3.5" ry="7" transform="rotate(20 12 12)"/><path d="M9 7c2 2 4 6 6 9"/></svg>`,
+    "crop-tea": `<svg ${SVG_ATTRS}><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19.2 2.96c1.4 2 2 4.5 1.8 7-.1.2-.2.4-.3.6"/><path d="M2 22c0-3 1.85-5.36 5.08-6"/></svg>`,
+    "crop-grass": `<svg ${SVG_ATTRS}><path d="M3 22v-6c0-3 2-5 4-5M7 22V10c0-3 2-5 5-6M12 22V6c2 0 5 2 6 5M17 22V12c0-2 2-3 4-3"/></svg>`
 };
+
+// Crop name → category icon
+const CROP_ICON_MAP = {
+    wheat: "crop-cereal", barley: "crop-cereal", sorghum: "crop-cereal", millet: "crop-cereal",
+    rice: "crop-rice",
+    maize: "crop-maize",
+    soybean: "crop-bean", groundnut: "crop-bean", lentil: "crop-bean", chickpea: "crop-bean",
+    cotton: "crop-cotton",
+    sunflower: "crop-sunflower",
+    sugarcane: "crop-sugarcane",
+    potato: "crop-root", cassava: "crop-root",
+    onion: "crop-onion",
+    carrot: "crop-carrot",
+    cabbage: "crop-leafy", lettuce: "crop-leafy",
+    tomato: "crop-tomato", pepper: "crop-tomato",
+    banana: "crop-banana",
+    apple: "crop-apple", citrus: "crop-apple",
+    mango: "crop-mango",
+    grape: "crop-grape",
+    coffee: "crop-coffee",
+    tea: "crop-tea",
+    alfalfa: "crop-grass", pasture: "crop-grass"
+};
+
+function cropIcon(name) {
+    return CROP_ICON_MAP[String(name || "").toLowerCase()] || "sprout";
+}
 
 // Weather code → icon name + label
 const WEATHER_CODES = {
@@ -103,6 +164,7 @@ function renderIcons(root = document) {
 // Bootstrap
 // ============================================================
 document.addEventListener("DOMContentLoaded", async () => {
+    initTheme();
     renderIcons();
     bindTabs();
     bindSubTabs();
@@ -111,6 +173,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     bindCursorGlow();
     bindMagneticButtons();
     bindCropCardTilt();
+    bindRippleButtons();
+    bindScrollReveal();
+    spawnParticles();
+    initMouseLight();
+    initModalLayer();
+    bindCardModals();
+    bindEasterEggs();
+    addExpandCues();
+    bindFloatingDock();
+    initGreeting();
+    initGlobe();
+    initClock();
 
     await loadCrops();
     initMap();
@@ -126,6 +200,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     } else {
         activateTab("overview");
     }
+
+    // Scramble the hero title on first load
+    const heroTitle = document.querySelector(".hero-title");
+    if (heroTitle) scrambleText(heroTitle, heroTitle.textContent, 35);
+
+    // After ~3s on the page show the keyboard-help hint via a subtle toast
+    setTimeout(() => {
+        if (!sessionStorage.getItem("seenHelpHint")) {
+            toast("Press ? for keyboard shortcuts", { tone: "info", duration: 4500 });
+            sessionStorage.setItem("seenHelpHint", "1");
+        }
+    }, 4200);
 });
 
 // ============================================================
@@ -175,6 +261,100 @@ function flashValue(el) {
     el.classList.add("is-flashing");
 }
 
+// ============================================================
+// Text scramble effect — decodes random chars into final text
+// ============================================================
+const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*";
+function scrambleText(el, finalText, speed = 30) {
+    if (!el || REDUCE_MOTION) { if (el) el.textContent = finalText; return; }
+    let iteration = 0;
+    const len = finalText.length;
+    el.classList.add("is-scrambling");
+    const interval = setInterval(() => {
+        el.textContent = finalText
+            .split("")
+            .map((char, i) => {
+                if (char === " ") return " ";
+                if (i < iteration) return finalText[i];
+                return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+            })
+            .join("");
+        if (iteration >= len) {
+            clearInterval(interval);
+            el.textContent = finalText;
+            el.classList.remove("is-scrambling");
+        }
+        iteration += 1.5;
+    }, speed);
+}
+
+// ============================================================
+// Button ripple effect
+// ============================================================
+function bindRippleButtons() {
+    document.querySelectorAll(".btn-cta, .btn-primary, .btn-secondary").forEach(btn => {
+        btn.addEventListener("click", e => {
+            if (REDUCE_MOTION) return;
+            const ripple = document.createElement("span");
+            ripple.className = "ripple-effect";
+            const rect = btn.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height) * 2;
+            ripple.style.width = ripple.style.height = `${size}px`;
+            ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+            ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+            btn.style.position = "relative";
+            btn.style.overflow = "hidden";
+            btn.appendChild(ripple);
+            ripple.addEventListener("animationend", () => ripple.remove());
+        });
+    });
+}
+
+// ============================================================
+// Floating particles — ambient background dots
+// ============================================================
+function spawnParticles() {
+    if (REDUCE_MOTION) return;
+    const container = document.querySelector(".bg-base");
+    if (!container) return;
+    // Fewer particles on compact / touch devices
+    const compact = window.matchMedia && window.matchMedia("(max-width: 640px), (hover: none)").matches;
+    const count = compact ? 8 : 14;
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < count; i++) {
+        const p = document.createElement("div");
+        p.className = "particle";
+        p.style.left = `${Math.random() * 100}%`;
+        p.style.top = `${Math.random() * 100}%`;
+        p.style.width = p.style.height = `${2 + Math.random() * 3}px`;
+        p.style.animationDuration = `${16 + Math.random() * 22}s`;
+        p.style.animationDelay = `${Math.random() * -22}s`;
+        p.style.opacity = `${0.15 + Math.random() * 0.25}`;
+        frag.appendChild(p);
+    }
+    container.appendChild(frag);
+}
+
+// ============================================================
+// Scroll-reveal — IntersectionObserver for .reveal-on-scroll
+// ============================================================
+function bindScrollReveal() {
+    if (REDUCE_MOTION) return;
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("is-revealed");
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+
+    document.querySelectorAll(".card, .metric-card, .plot-card, .batch-card, .forecast-day").forEach(el => {
+        el.classList.add("reveal-on-scroll");
+        observer.observe(el);
+    });
+}
+
 // Cursor-tracked radial glow used by metric/plot/crop cards
 function bindCursorGlow() {
     const handler = e => {
@@ -183,7 +363,7 @@ function bindCursorGlow() {
         card.style.setProperty("--mx", `${((e.clientX - rect.left) / rect.width) * 100}%`);
         card.style.setProperty("--my", `${((e.clientY - rect.top) / rect.height) * 100}%`);
     };
-    document.querySelectorAll(".metric-card, .plot-card").forEach(c => {
+    document.querySelectorAll(".metric-card, .plot-card, .card, .batch-card").forEach(c => {
         c.addEventListener("mousemove", handler);
     });
 }
@@ -211,8 +391,8 @@ function bindCropCardTilt() {
         const rect = card.getBoundingClientRect();
         const x = ((e.clientX - rect.left) / rect.width) - 0.5;
         const y = ((e.clientY - rect.top) / rect.height) - 0.5;
-        const tilt = 4; // degrees
-        card.style.transform = `translateY(-3px) perspective(800px) rotateY(${x * tilt}deg) rotateX(${-y * tilt}deg)`;
+        const tilt = 6; // degrees — more pronounced
+        card.style.transform = `translateY(-5px) perspective(600px) rotateY(${x * tilt}deg) rotateX(${-y * tilt}deg) scale(1.02)`;
         card.style.setProperty("--mx", `${(x + 0.5) * 100}%`);
         card.style.setProperty("--my", `${(y + 0.5) * 100}%`);
     });
@@ -228,7 +408,7 @@ function bindMagneticButtons() {
             const rect = btn.getBoundingClientRect();
             const x = ((e.clientX - rect.left) / rect.width) - 0.5;
             const y = ((e.clientY - rect.top) / rect.height) - 0.5;
-            btn.style.transform = `translate(${x * 4}px, ${y * 3 - 2}px)`;
+            btn.style.transform = `translate(${x * 6}px, ${y * 4 - 2}px) scale(1.02)`;
         });
         btn.addEventListener("mouseleave", () => { btn.style.transform = ""; });
     });
@@ -264,6 +444,13 @@ function activateTab(name) {
         t.classList.toggle("is-active", active);
         t.setAttribute("aria-selected", String(active));
     });
+
+    // Mirror to floating dock
+    document.querySelectorAll(".dock-item").forEach(d => {
+        d.classList.toggle("is-active", d.dataset.tab === name);
+    });
+    positionDockIndicator();
+
 
     document.querySelectorAll(".view").forEach(v => {
         const target = v.dataset.section === name;
@@ -351,29 +538,97 @@ async function loadCrops() {
         const crops = await res.json();
         state.crops = crops;
 
+        // Native select (hidden fallback) — keeps form-data semantics working
         const picker = document.getElementById("crop_picker");
-        picker.innerHTML = "";
+        if (picker) {
+            picker.innerHTML = "";
+            const placeholder = document.createElement("option");
+            placeholder.value = "";
+            placeholder.textContent = "— Select a crop —";
+            picker.appendChild(placeholder);
+            crops.forEach(c => {
+                const opt = document.createElement("option");
+                opt.value = c.crop_name;
+                opt.textContent = c.crop_name.charAt(0).toUpperCase() + c.crop_name.slice(1);
+                picker.appendChild(opt);
+            });
+        }
 
-        // Placeholder option
-        const placeholder = document.createElement("option");
-        placeholder.value = "";
-        placeholder.textContent = "— Select a crop —";
-        placeholder.disabled = true;
-        placeholder.selected = true;
-        picker.appendChild(placeholder);
-
-        crops.forEach(c => {
-            const opt = document.createElement("option");
-            opt.value = c.crop_name;
-            opt.textContent = c.crop_name.charAt(0).toUpperCase() + c.crop_name.slice(1);
-            picker.appendChild(opt);
-        });
+        // Custom dropdown — populated with crop icons
+        initCustomCropSelect();
 
         // Do NOT auto-add any crop — keep selection empty
         renderChips();
     } catch (e) {
         console.error("Failed to load crops", e);
     }
+}
+
+// ============================================================
+// Custom crop dropdown with icons
+// ============================================================
+function initCustomCropSelect() {
+    const wrap = document.getElementById("crop-select");
+    if (!wrap) return;
+    const trigger = wrap.querySelector(".custom-select-trigger");
+    const menu = wrap.querySelector(".custom-select-menu");
+    const labelEl = wrap.querySelector(".custom-select-label");
+    const iconEl = wrap.querySelector(".custom-select-value .opt-icon");
+
+    if (!trigger || !menu) return;
+
+    menu.innerHTML = "";
+    state.crops.forEach(c => {
+        const li = document.createElement("li");
+        li.className = "custom-select-option";
+        li.setAttribute("role", "option");
+        li.dataset.value = c.crop_name;
+        li.innerHTML = `<span class="opt-icon">${svgFor(cropIcon(c.crop_name))}</span><span>${c.crop_name}</span>`;
+        li.addEventListener("click", () => {
+            wrap.dataset.value = c.crop_name;
+            labelEl.textContent = c.crop_name.charAt(0).toUpperCase() + c.crop_name.slice(1);
+            iconEl.classList.remove("ghost");
+            iconEl.innerHTML = svgFor(cropIcon(c.crop_name));
+            menu.querySelectorAll(".custom-select-option").forEach(o => o.classList.remove("is-selected"));
+            li.classList.add("is-selected");
+            closeCropDropdown();
+
+            // Mirror to native select for form submission semantics
+            const picker = document.getElementById("crop_picker");
+            if (picker) picker.value = c.crop_name;
+        });
+        menu.appendChild(li);
+    });
+
+    trigger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const open = wrap.classList.toggle("is-open");
+        menu.hidden = !open;
+        trigger.setAttribute("aria-expanded", String(open));
+        if (open) {
+            // Highlight the selected option to scroll into view
+            const sel = menu.querySelector(".is-selected");
+            if (sel) sel.scrollIntoView({ block: "nearest" });
+        }
+    });
+
+    // Click outside closes
+    document.addEventListener("click", (e) => {
+        if (!wrap.contains(e.target)) closeCropDropdown();
+    });
+
+    function closeCropDropdown() {
+        wrap.classList.remove("is-open");
+        menu.hidden = true;
+        trigger.setAttribute("aria-expanded", "false");
+    }
+
+    // Disable already-selected crops dynamically
+    document.addEventListener("crops-changed", () => {
+        menu.querySelectorAll(".custom-select-option").forEach(opt => {
+            opt.classList.toggle("is-disabled", state.selectedCrops.includes(opt.dataset.value));
+        });
+    });
 }
 
 function findCrop(name) { return state.crops.find(c => c.crop_name === name); }
@@ -390,12 +645,29 @@ function kcForStage(crop, stage) {
 // ============================================================
 function bindCropPicker() {
     document.getElementById("add-crop-btn").addEventListener("click", () => {
-        const picker = document.getElementById("crop_picker");
-        const val = picker.value;
-        if (!val) return; // ignore placeholder
+        // Prefer the custom dropdown value
+        const custom = document.getElementById("crop-select");
+        const val = (custom && custom.dataset.value) || document.getElementById("crop_picker")?.value || "";
+        if (!val) {
+            toast("Pick a crop first", { tone: "info" });
+            return;
+        }
+        if (state.selectedCrops.includes(val)) {
+            toast(`${val} already added`, { tone: "info" });
+            return;
+        }
         addCrop(val);
-        // Reset picker back to placeholder
-        picker.selectedIndex = 0;
+        // Reset the dropdown
+        if (custom) {
+            custom.dataset.value = "";
+            const label = custom.querySelector(".custom-select-label");
+            const icon = custom.querySelector(".custom-select-value .opt-icon");
+            if (label) label.textContent = "— Select a crop —";
+            if (icon) { icon.classList.add("ghost"); icon.innerHTML = svgFor("sprout"); }
+            custom.querySelectorAll(".custom-select-option").forEach(o => o.classList.remove("is-selected"));
+        }
+        const picker = document.getElementById("crop_picker");
+        if (picker) picker.selectedIndex = 0;
     });
 
     // Clear-all button
@@ -428,6 +700,7 @@ function addCrop(name) {
     renderChips();
     renderYourCrops();
     updateGeoOverview();
+    document.dispatchEvent(new CustomEvent("crops-changed"));
 }
 
 function removeCrop(name) {
@@ -439,6 +712,7 @@ function removeCrop(name) {
         state.lastResults.crops = state.lastResults.crops.filter(c => c.crop.crop_name !== name);
         renderResults(state.lastResults);
     }
+    document.dispatchEvent(new CustomEvent("crops-changed"));
 }
 
 function clearAllCrops() {
@@ -450,6 +724,7 @@ function clearAllCrops() {
         state.lastResults.crops = [];
         renderResults(state.lastResults);
     }
+    document.dispatchEvent(new CustomEvent("crops-changed"));
 }
 
 function renderChips() {
@@ -471,10 +746,14 @@ function renderChips() {
     state.selectedCrops.forEach(name => {
         const chip = document.createElement("span");
         chip.className = "crop-chip";
-        chip.innerHTML = `${name}<button type="button" aria-label="remove ${name}">${svgFor("x")}</button>`;
+        chip.innerHTML = `<span class="chip-ic">${svgFor(cropIcon(name))}</span>${name}<button type="button" aria-label="remove ${name}">${svgFor("x")}</button>`;
         chip.querySelector("button").addEventListener("click", () => removeCrop(name));
         wrap.appendChild(chip);
     });
+
+    // Pulse the run button when ready
+    const btn = document.getElementById("submit-btn");
+    if (btn) btn.classList.toggle("is-ready", state.selectedCrops.length > 0 && !btn.disabled);
 }
 
 // ============================================================
@@ -504,7 +783,7 @@ function renderYourCrops(perCropResults) {
         card.style.setProperty("--stagger", `${0.05 + idx * 0.06}s`);
         card.innerHTML = `
             <div class="crop-head">
-                <div class="crop-name">${svgFor("sprout")}<span class="ic-sm-wrap"></span>${name}</div>
+                <div class="crop-name"><span class="crop-ic">${svgFor(cropIcon(name))}</span>${name}</div>
                 <div class="crop-stage">${state.crop_stage}</div>
             </div>
             <div class="crop-detail-row"><span>Kc (stage)</span><strong>${kc.toFixed(2)}</strong></div>
@@ -516,16 +795,6 @@ function renderYourCrops(perCropResults) {
                 <div class="crop-water-badge">5-day total · ${sumLiters(sim.schedule).toFixed(1)} L</div>
             ` : `<div class="crop-water-badge">Run simulator for water plan</div>`}
         `;
-        // Wrap the sprout svg in a span so styling lines up
-        const head = card.querySelector(".crop-name");
-        const svg = head.querySelector("svg");
-        if (svg) {
-            svg.setAttribute("width", "14");
-            svg.setAttribute("height", "14");
-            svg.classList.add("ic-sm");
-        }
-        const placeholder = head.querySelector(".ic-sm-wrap");
-        if (placeholder) placeholder.remove();
         wrap.appendChild(card);
     });
 
@@ -644,6 +913,7 @@ function renderWeather(data) {
     const tempC = cur.temperature != null ? `${cur.temperature.toFixed(0)}°C` : "—";
 
     setText("nav-temp", tempC);
+    setText("greeting-temp", tempC);
     setText("weather-now-temp", tempStr);
     setText("weather-now-desc", info.desc);
     setText("overview-temp", tempC);
@@ -687,16 +957,19 @@ function bindForm() {
 
     document.getElementById("simulation-form").addEventListener("submit", async e => {
         e.preventDefault();
+        const btn = document.getElementById("submit-btn");
         if (state.selectedCrops.length === 0) {
-            alert("Add at least one crop before running the simulation.");
+            if (btn) {
+                btn.classList.add("shake");
+                setTimeout(() => btn.classList.remove("shake"), 600);
+            }
+            toast("Add at least one crop before running", { tone: "error" });
             return;
         }
 
-        const btn = document.getElementById("submit-btn");
-        const spinner = btn.querySelector(".spinner");
         const btnText = btn.querySelector("span");
         btn.disabled = true;
-        spinner.classList.remove("hidden");
+        btn.classList.remove("is-ready");
         btnText.textContent = "Running…";
 
         const payload = {
@@ -710,28 +983,22 @@ function bindForm() {
         };
 
         try {
-            const res = await fetch("/api/simulate", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
-            const result = await res.json();
-            if (result.status === "success") {
-                state.lastResults = result.data;
-                renderResults(result.data);
-            } else {
-                alert("Simulation error: " + result.message);
-            }
+            // Form is inside the config modal — restore it to its host first
+            // so the simulation progress modal can fully replace the modal body
+            restoreConfigFormFromModal();
+            await runSimulationWithModal(payload);
         } catch (err) {
             console.error(err);
-            alert("Network error while running simulation.");
+            toast("Network error while running", { tone: "error" });
         } finally {
             btn.disabled = false;
-            spinner.classList.add("hidden");
             btnText.textContent = "Run simulation";
+            if (state.selectedCrops.length > 0) btn.classList.add("is-ready");
         }
     });
 }
+
+// (button-ready toggle is handled inside renderChips)
 
 // ============================================================
 // Render results
@@ -750,6 +1017,11 @@ function renderResults(data) {
     renderModelComparison(data.model_comparison);
     refreshPlots();
     updateGeoOverview();
+
+    // Re-attach expand affordance to freshly-rendered cards
+    if (typeof addCue === "function") {
+        document.querySelectorAll(".crop-card, .batch-card, .plan-crop, .forecast-day").forEach(addCue);
+    }
 }
 
 function renderScheduleTabs(perCrop) {
@@ -807,7 +1079,7 @@ function renderBatchGrid(perCrop) {
         card.className = "batch-card";
         card.innerHTML = `
             <div class="batch-card-head">
-                <strong>${c.crop.crop_name}</strong>
+                <strong><span class="crop-ic">${svgFor(cropIcon(c.crop.crop_name))}</span>${c.crop.crop_name}</strong>
                 <span class="crop-stage">${c.crop.stage}</span>
             </div>
             <div class="batch-card-stat"><span>Batch total</span><strong>${c.batch_total.toFixed(3)} mm</strong></div>
@@ -841,18 +1113,11 @@ function renderPlanList(perCrop) {
         }).join("");
         block.innerHTML = `
             <div class="plan-crop-head">
-                <strong>${svgFor("sprout")}${c.crop.crop_name} (${c.crop.stage})</strong>
+                <strong><span class="crop-ic">${svgFor(cropIcon(c.crop.crop_name))}</span>${c.crop.crop_name} <span class="plan-stage">(${c.crop.stage})</span></strong>
                 <span class="hint">5-day total · ${sumLiters(c.schedule).toFixed(1)} L</span>
             </div>
             <div class="plan-days">${daysHtml}</div>
         `;
-        // Ensure the sprout svg has the right size class
-        const svg = block.querySelector(".plan-crop-head svg");
-        if (svg) {
-            svg.setAttribute("width", "14");
-            svg.setAttribute("height", "14");
-            svg.classList.add("ic-sm");
-        }
         wrap.appendChild(block);
     });
 }
@@ -881,3 +1146,1003 @@ function refreshPlots() {
     document.getElementById("plot-4").src = `/plots/plot_4_stress_days.png?t=${ts}`;
     document.getElementById("plot-5").src = `/plots/plot_5_forecast.png?t=${ts}`;
 }
+
+// ============================================================
+// MODAL SYSTEM — backdrop blur + spring-in
+// ============================================================
+function initModalLayer() {
+    if (document.getElementById("modal-backdrop")) return;
+    const backdrop = document.createElement("div");
+    backdrop.id = "modal-backdrop";
+    backdrop.className = "modal-backdrop";
+    backdrop.innerHTML = `
+        <div class="modal-shell" role="dialog" aria-modal="true">
+            <button class="modal-close" aria-label="Close">${svgFor("x")}</button>
+            <div class="modal-body"></div>
+        </div>
+    `;
+    document.body.appendChild(backdrop);
+    backdrop.addEventListener("click", e => {
+        if (e.target === backdrop) closeModal();
+    });
+    backdrop.querySelector(".modal-close").addEventListener("click", closeModal);
+
+    // Wire up dedicated "Open simulator" triggers
+    document.querySelectorAll("[data-open-config]").forEach(btn => {
+        btn.addEventListener("click", openConfigModal);
+    });
+}
+
+function openModal(html, opts = {}) {
+    initModalLayer();
+    const backdrop = document.getElementById("modal-backdrop");
+    const shell = backdrop.querySelector(".modal-shell");
+    const body = backdrop.querySelector(".modal-body");
+
+    if (opts.size) shell.dataset.size = opts.size;
+    else delete shell.dataset.size;
+
+    body.innerHTML = html;
+    renderIcons(body);
+
+    backdrop.classList.add("is-open");
+    document.body.classList.add("modal-open");
+    document.addEventListener("keydown", _escClose);
+
+    return backdrop;
+}
+
+function closeModal() {
+    const backdrop = document.getElementById("modal-backdrop");
+    if (!backdrop) return;
+
+    // If the config form is currently in the modal, move it back to its host
+    restoreConfigFormFromModal();
+
+    backdrop.classList.remove("is-open");
+    document.body.classList.remove("modal-open");
+    document.removeEventListener("keydown", _escClose);
+}
+
+// ============================================================
+// CONFIG MODAL  ·  move the form into the shared modal, back on close
+// ============================================================
+function openConfigModal() {
+    initModalLayer();
+    const host = document.getElementById("config-form-host");
+    if (!host) return;
+
+    const backdrop = document.getElementById("modal-backdrop");
+    const shell = backdrop.querySelector(".modal-shell");
+    const body = backdrop.querySelector(".modal-body");
+
+    shell.dataset.size = "md";
+    shell.classList.add("modal-config");
+
+    // Move all of host's children into the body (form, header, etc.)
+    body.innerHTML = "";
+    Array.from(host.childNodes).forEach(n => body.appendChild(n));
+    host.hidden = true;
+
+    backdrop.classList.add("is-open");
+    document.body.classList.add("modal-open");
+    document.addEventListener("keydown", _escClose);
+
+    // Re-render icons inside the newly-visible form (some elements rendered fresh)
+    renderIcons(body);
+}
+
+function restoreConfigFormFromModal() {
+    const backdrop = document.getElementById("modal-backdrop");
+    const host = document.getElementById("config-form-host");
+    if (!backdrop || !host) return;
+    const body = backdrop.querySelector(".modal-body");
+    const shell = backdrop.querySelector(".modal-shell");
+
+    // If the host's children moved into the body, move them back
+    if (body && body.querySelector("#simulation-form")) {
+        Array.from(body.childNodes).forEach(n => host.appendChild(n));
+        host.hidden = true;
+    }
+    if (shell) shell.classList.remove("modal-config");
+}
+
+function _escClose(e) {
+    if (e.key === "Escape") closeModal();
+}
+
+// ============================================================
+// SIMULATION MODAL — progressive steps + result summary
+// ============================================================
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function runSimulationWithModal(payload) {
+    const cropCount = payload.crops.length;
+    const cropNames = payload.crops.map(c => c.crop_name);
+
+    const steps = [
+        { id: "load", icon: "satellite", label: "Loading SAR-calibrated dataset", duration: 360 },
+        { id: "train", icon: "brain", label: "Training Random Forest · 100 trees", duration: 640 },
+        { id: "compare", icon: "bar-chart", label: "Benchmarking RF vs GBM vs LSTM", duration: 520 },
+        // One step per crop — uses crop icon
+        ...cropNames.map((name) => ({
+            id: `crop-${name}`,
+            icon: cropIcon(name),
+            label: `Scheduling ${name}`,
+            duration: 360,
+            cropName: name
+        })),
+        { id: "batch", icon: "zap", label: "Optimising batch irrigation", duration: 320 },
+        { id: "forecast", icon: "cloud-sun", label: "Forecasting next 5 days · Open-Meteo", duration: 400 }
+    ];
+
+    openModal(`
+        <div class="sim-modal">
+            <div class="sim-modal-head">
+                <div class="ic-tile accent"><span data-icon="droplets"></span></div>
+                <div>
+                    <h2>Running smart irrigation</h2>
+                    <p>Ahmednagar farm · ${cropCount} crop${cropCount === 1 ? "" : "s"} · ${payload.area} ${payload.unit}</p>
+                </div>
+            </div>
+
+            <div class="sim-progress">
+                <div class="sim-progress-bar"><div class="sim-progress-fill"></div></div>
+                <div class="sim-progress-pct mono">0%</div>
+            </div>
+
+            <ul class="sim-steps">
+                ${steps.map(s => `
+                    <li data-step="${s.id}"${s.cropName ? ` data-crop="${s.cropName}"` : ""}>
+                        <span class="step-icon" data-icon="circle-dashed"></span>
+                        <span class="step-glyph">${svgFor(s.icon || "circle-dashed")}</span>
+                        <span class="step-label">${s.label}</span>
+                        <span class="step-status">Queued</span>
+                    </li>
+                `).join("")}
+            </ul>
+
+            <div class="sim-result" id="sim-result" hidden></div>
+        </div>
+    `, { size: "lg" });
+
+    // Fire the actual request in parallel
+    const fetchPromise = fetch("/api/simulate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    }).then(r => r.json()).catch(err => ({ status: "error", message: err.message }));
+
+    const totalDuration = steps.reduce((acc, s) => acc + s.duration, 0);
+    let elapsed = 0;
+
+    for (const step of steps) {
+        const li = document.querySelector(`.sim-steps li[data-step="${step.id}"]`);
+        if (!li) break;
+        const iconEl = li.querySelector(".step-icon");
+        const statusEl = li.querySelector(".step-status");
+
+        li.classList.add("is-running");
+        iconEl.innerHTML = svgFor("loader");
+        statusEl.textContent = "Running…";
+
+        await sleep(step.duration);
+        elapsed += step.duration;
+        updateSimProgress((elapsed / totalDuration) * 92);
+
+        li.classList.remove("is-running");
+        li.classList.add("is-done");
+        iconEl.innerHTML = svgFor("check");
+        statusEl.textContent = "Done";
+    }
+
+    // Wait for the request if it hasn't finished
+    const result = await fetchPromise;
+    updateSimProgress(100);
+
+    if (result.status === "success") {
+        state.lastResults = result.data;
+        renderResults(result.data);
+        showSimResult(result.data);
+        confettiBurst();
+    } else {
+        showSimError(result.message || "Unknown error");
+    }
+
+    return result;
+}
+
+function updateSimProgress(pct) {
+    const fill = document.querySelector(".sim-progress-fill");
+    const pctEl = document.querySelector(".sim-progress-pct");
+    if (fill) fill.style.width = `${pct}%`;
+    if (pctEl) pctEl.textContent = `${Math.round(pct)}%`;
+}
+
+function showSimResult(data) {
+    const el = document.getElementById("sim-result");
+    if (!el) return;
+    el.hidden = false;
+    el.innerHTML = `
+        <div class="sim-result-head">
+            <div class="ic-tile accent"><span data-icon="check"></span></div>
+            <div>
+                <h3>Simulation complete</h3>
+                <p>Your irrigation plan is ready.</p>
+            </div>
+        </div>
+        <div class="sim-result-grid">
+            <div class="sim-result-stat"><span>Crops</span><strong class="mono">${data.num_crops}</strong></div>
+            <div class="sim-result-stat"><span>Total water</span><strong class="mono">${(data.total_water ?? 0).toFixed(3)} mm</strong></div>
+            <div class="sim-result-stat"><span>Events</span><strong class="mono">${data.total_irrigation_days ?? 0}</strong></div>
+            <div class="sim-result-stat"><span>Model RMSE</span><strong class="mono">${(data.rmse ?? 0).toFixed(4)}</strong></div>
+        </div>
+        <div class="sim-result-actions">
+            <button class="btn-cta" id="sim-view-results">View dashboard <span data-icon="arrow-right"></span></button>
+            <button class="btn-ghost" id="sim-close">Close</button>
+        </div>
+    `;
+    renderIcons(el);
+    el.querySelector("#sim-view-results")?.addEventListener("click", () => {
+        closeModal();
+        activateTab("overview");
+    });
+    el.querySelector("#sim-close")?.addEventListener("click", closeModal);
+}
+
+function showSimError(message) {
+    const el = document.getElementById("sim-result");
+    if (!el) return;
+    el.hidden = false;
+    el.style.borderColor = "rgba(239, 68, 68, 0.4)";
+    el.style.background = "rgba(239, 68, 68, 0.06)";
+    el.innerHTML = `
+        <div class="sim-result-head">
+            <div class="ic-tile" style="background:rgba(239,68,68,0.18);color:#fca5a5;border-color:rgba(239,68,68,0.4)"><span data-icon="x"></span></div>
+            <div>
+                <h3 style="color:#fca5a5">Simulation failed</h3>
+                <p style="color:var(--text-2)">${message}</p>
+            </div>
+        </div>
+        <div class="sim-result-actions">
+            <button class="btn-ghost" id="sim-close">Close</button>
+        </div>
+    `;
+    renderIcons(el);
+    el.querySelector("#sim-close")?.addEventListener("click", closeModal);
+}
+
+// ============================================================
+// CARD DETAIL MODALS  ·  delegated click handlers
+// ============================================================
+function bindCardModals() {
+    // Metric cards
+    document.querySelectorAll(".metric-card").forEach(card => {
+        card.addEventListener("click", () => openMetricModal(card));
+    });
+
+    // Plot cards
+    document.querySelectorAll(".plot-card").forEach(card => {
+        card.addEventListener("click", () => openPlotModal(card));
+    });
+
+    // Crop cards (delegated)
+    const cropGrid = document.getElementById("your-crops-grid");
+    if (cropGrid) {
+        cropGrid.addEventListener("click", e => {
+            const card = e.target.closest(".crop-card");
+            if (card) {
+                const nameEl = card.querySelector(".crop-name");
+                const name = nameEl ? nameEl.textContent.trim().toLowerCase() : null;
+                if (name) openCropModal(name);
+            }
+        });
+    }
+
+    // Batch cards (delegated)
+    const batchGrid = document.getElementById("batch-grid");
+    if (batchGrid) {
+        batchGrid.addEventListener("click", e => {
+            const card = e.target.closest(".batch-card");
+            if (card) {
+                const name = card.querySelector(".batch-card-head strong")?.textContent?.trim();
+                if (name) openBatchModal(name);
+            }
+        });
+    }
+
+    // Plan rows
+    const planList = document.getElementById("plan-list");
+    if (planList) {
+        planList.addEventListener("click", e => {
+            const card = e.target.closest(".plan-crop");
+            if (card) {
+                const strong = card.querySelector(".plan-crop-head strong")?.textContent || "";
+                const name = strong.split("(")[0].trim().toLowerCase();
+                if (name) openPlanModal(name);
+            }
+        });
+    }
+
+    // Forecast days
+    const fc = document.getElementById("weather-forecast");
+    if (fc) {
+        fc.addEventListener("click", e => {
+            const card = e.target.closest(".forecast-day");
+            if (card) openForecastModal(card);
+        });
+    }
+}
+
+function openMetricModal(card) {
+    const label = card.querySelector(".metric-label")?.textContent || "";
+    const value = card.querySelector(".metric-value")?.textContent || "—";
+    const sub = card.querySelector(".metric-sub")?.textContent || "";
+    const iconHtml = card.querySelector(".ic-tile")?.outerHTML || "";
+
+    const explainer = {
+        "Crops Tracked": "Number of crops you've added to the current simulation. Each one is run through the Random Forest scheduler with its own Kc coefficient.",
+        "Batch Water": "Aggregate water (in millimetres) delivered across all crops by the batch-optimised scheduler. Lower is better — provided no stress days are introduced.",
+        "Irrigation Events": "Days on which the batch scheduler triggers an irrigation pulse, summed across all selected crops.",
+        "Model RMSE": "Root-mean-square error of the Random Forest predictor against the held-out 20% test split. Lower is better."
+    }[label.trim()] || "Live metric driven by the active simulation.";
+
+    openModal(`
+        <div class="card-modal">
+            <div class="card-modal-head">
+                ${iconHtml}
+                <div>
+                    <h2>${label}</h2>
+                    <div class="subtitle">Calculated from the latest run · Ahmednagar pilot</div>
+                </div>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 3rem; font-weight: 600; letter-spacing: -1.5px; color: var(--text);">
+                ${value}
+            </div>
+            <div class="card-modal-callout">
+                <span data-icon="info" style="vertical-align:middle"></span>
+                ${explainer}
+            </div>
+            <div class="card-modal-section">
+                <h3>Source</h3>
+                <p style="color: var(--text-2); font-size: 0.88rem;">${sub}</p>
+            </div>
+        </div>
+    `, { size: "sm" });
+}
+
+function openPlotModal(card) {
+    const title = card.querySelector("h4")?.textContent || "Plot";
+    const legend = card.querySelector(".plot-legend")?.innerHTML || "";
+    const img = card.querySelector("img");
+    const src = img ? img.src : "";
+
+    openModal(`
+        <div class="card-modal">
+            <div class="card-modal-head">
+                <div class="ic-tile sky"><span data-icon="bar-chart"></span></div>
+                <div>
+                    <h2>${title}</h2>
+                    <div class="subtitle">Regenerated on each simulation run</div>
+                </div>
+            </div>
+            <div class="modal-plot">
+                <img src="${src}" alt="${title}">
+            </div>
+            <div class="plot-legend" style="text-align:center;">${legend}</div>
+        </div>
+    `, { size: "xl" });
+}
+
+function openCropModal(name) {
+    const c = findCrop(name);
+    if (!c) return;
+    const sim = state.lastResults?.crops?.find(x => x.crop.crop_name === name);
+    const kc = kcForStage(c, state.crop_stage);
+
+    const scheduleHtml = sim ? `
+        <div class="card-modal-section">
+            <h3>5-day plan</h3>
+            <table class="modal-table">
+                <thead><tr><th>Date</th><th>Moisture</th><th>Rain</th><th>Temp</th><th>Liters</th></tr></thead>
+                <tbody>
+                    ${sim.schedule.map(row => {
+                        const dateStr = row.date ? String(row.date).substring(0, 10) : `Day ${row.forecast_day}`;
+                        return `<tr>
+                            <td>${dateStr}</td>
+                            <td>${(row.predicted_soil_moisture ?? 0).toFixed(3)}</td>
+                            <td>${(row.forecast_rainfall ?? 0).toFixed(1)} mm</td>
+                            <td>${(row.forecast_temperature ?? 0).toFixed(1)}°</td>
+                            <td><strong>${(row.irrigation_liters ?? 0).toFixed(1)}</strong></td>
+                        </tr>`;
+                    }).join("")}
+                </tbody>
+            </table>
+        </div>
+    ` : `<div class="card-modal-callout">Run a simulation to see the day-by-day water plan for this crop.</div>`;
+
+    openModal(`
+        <div class="card-modal">
+            <div class="card-modal-head">
+                <div class="ic-tile accent">${svgFor(cropIcon(name))}</div>
+                <div>
+                    <h2>${name}</h2>
+                    <div class="subtitle">${state.crop_stage} stage · root depth ${c.root_depth_m} m</div>
+                </div>
+            </div>
+            <div class="card-modal-grid">
+                <div class="row"><span>Kc (initial)</span><strong>${c.kc_initial}</strong></div>
+                <div class="row"><span>Kc (mid)</span><strong>${c.kc_mid}</strong></div>
+                <div class="row"><span>Kc (end)</span><strong>${c.kc_end}</strong></div>
+                <div class="row"><span>Kc (active)</span><strong>${kc.toFixed(2)}</strong></div>
+                <div class="row"><span>Root depth</span><strong>${c.root_depth_m} m</strong></div>
+                ${sim ? `<div class="row"><span>Batch water</span><strong>${sim.batch_total.toFixed(3)} mm</strong></div>` : ""}
+                ${sim ? `<div class="row"><span>Events</span><strong>${sim.batch_days}</strong></div>` : ""}
+                ${sim ? `<div class="row"><span>5-day total</span><strong>${sumLiters(sim.schedule).toFixed(1)} L</strong></div>` : ""}
+            </div>
+            ${scheduleHtml}
+        </div>
+    `, { size: "lg" });
+}
+
+function openBatchModal(name) {
+    const sim = state.lastResults?.crops?.find(x => x.crop.crop_name === name);
+    if (!sim) return;
+    const totalL = sumLiters(sim.schedule);
+
+    openModal(`
+        <div class="card-modal">
+            <div class="card-modal-head">
+                <div class="ic-tile warm"><span data-icon="zap"></span></div>
+                <div>
+                    <h2>${name}</h2>
+                    <div class="subtitle">Batch-optimised irrigation events</div>
+                </div>
+            </div>
+            <div class="card-modal-grid">
+                <div class="row"><span>Stage</span><strong>${sim.crop.stage}</strong></div>
+                <div class="row"><span>Crop Kc</span><strong>${sim.crop.kc.toFixed(2)}</strong></div>
+                <div class="row"><span>Batch total</span><strong>${sim.batch_total.toFixed(3)} mm</strong></div>
+                <div class="row"><span>Events</span><strong>${sim.batch_days}</strong></div>
+                <div class="row"><span>5-day liters</span><strong>${totalL.toFixed(1)} L</strong></div>
+            </div>
+            <div class="card-modal-callout">
+                <span data-icon="info" style="vertical-align:middle"></span>
+                Batch scheduling groups small daily irrigation amounts into ~71 practical events while keeping moisture above the critical threshold.
+            </div>
+        </div>
+    `, { size: "sm" });
+}
+
+function openPlanModal(name) {
+    const sim = state.lastResults?.crops?.find(x => x.crop.crop_name === name);
+    if (!sim) return;
+
+    const days = sim.schedule.map((row, idx) => {
+        const dateStr = row.date ? String(row.date).substring(0, 10) : `Day ${row.forecast_day}`;
+        return `
+            <div class="row">
+                <span>${dateStr}</span>
+                <strong>${(row.irrigation_liters ?? 0).toFixed(1)} L</strong>
+            </div>
+        `;
+    }).join("");
+
+    openModal(`
+        <div class="card-modal">
+            <div class="card-modal-head">
+                <div class="ic-tile sky"><span data-icon="activity"></span></div>
+                <div>
+                    <h2>${name} · forecast plan</h2>
+                    <div class="subtitle">5-day total · ${sumLiters(sim.schedule).toFixed(1)} L</div>
+                </div>
+            </div>
+            <div class="card-modal-grid">${days}</div>
+            <table class="modal-table">
+                <thead><tr><th>Date</th><th>Predicted moisture</th><th>Rain</th><th>Temp</th><th>Liters</th></tr></thead>
+                <tbody>
+                    ${sim.schedule.map(row => {
+                        const dateStr = row.date ? String(row.date).substring(0, 10) : `Day ${row.forecast_day}`;
+                        return `<tr>
+                            <td>${dateStr}</td>
+                            <td>${(row.predicted_soil_moisture ?? 0).toFixed(3)}</td>
+                            <td>${(row.forecast_rainfall ?? 0).toFixed(1)} mm</td>
+                            <td>${(row.forecast_temperature ?? 0).toFixed(1)}°</td>
+                            <td><strong>${(row.irrigation_liters ?? 0).toFixed(1)}</strong></td>
+                        </tr>`;
+                    }).join("")}
+                </tbody>
+            </table>
+        </div>
+    `, { size: "lg" });
+}
+
+function openForecastModal(card) {
+    const day = card.querySelector(".day-name")?.textContent || "Day";
+    const temp = card.querySelector(".day-temp")?.textContent || "";
+    const rain = card.querySelector(".day-rain")?.textContent || "";
+    const iconHtml = card.querySelector(".day-icon")?.innerHTML || "";
+
+    openModal(`
+        <div class="card-modal">
+            <div class="card-modal-head">
+                <div class="ic-tile sky" style="font-size:1.5rem;">${iconHtml}</div>
+                <div>
+                    <h2>${day}</h2>
+                    <div class="subtitle">Ahmednagar · Open-Meteo</div>
+                </div>
+            </div>
+            <div class="card-modal-grid">
+                <div class="row"><span>Temperature range</span><strong>${temp}</strong></div>
+                <div class="row"><span>Rainfall</span><strong>${rain}</strong></div>
+            </div>
+            <div class="card-modal-callout">
+                <span data-icon="info" style="vertical-align:middle"></span>
+                Forecasted rainfall feeds the simulator: heavier rain on this day reduces the irrigation volume scheduled the day before.
+            </div>
+        </div>
+    `, { size: "sm" });
+}
+
+// Add small "expand" affordance to every clickable card
+function addExpandCues() {
+    const types = [".metric-card", ".plot-card", ".crop-card", ".batch-card", ".plan-crop"];
+    types.forEach(sel => {
+        document.querySelectorAll(sel).forEach(addCue);
+    });
+    // For dynamically created cards, observe their parents
+    const observers = [
+        document.getElementById("your-crops-grid"),
+        document.getElementById("batch-grid"),
+        document.getElementById("plan-list"),
+        document.getElementById("weather-forecast")
+    ].filter(Boolean);
+    observers.forEach(parent => {
+        const mo = new MutationObserver(() => {
+            parent.querySelectorAll(".crop-card, .batch-card, .plan-crop, .forecast-day").forEach(addCue);
+        });
+        mo.observe(parent, { childList: true });
+    });
+}
+
+function addCue(el) {
+    if (el.querySelector(".card-expand-hint")) return;
+    const cue = document.createElement("span");
+    cue.className = "card-expand-hint";
+    cue.innerHTML = svgFor("expand");
+    el.appendChild(cue);
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function toast(message, opts = {}) {
+    const t = document.createElement("div");
+    t.className = "toast";
+    if (opts.tone) t.classList.add(`tone-${opts.tone}`);
+    t.textContent = message;
+    document.body.appendChild(t);
+    requestAnimationFrame(() => t.classList.add("is-visible"));
+    const duration = opts.duration ?? 2800;
+    setTimeout(() => {
+        t.classList.remove("is-visible");
+        setTimeout(() => t.remove(), 400);
+    }, duration);
+}
+
+// ============================================================
+// CONFETTI
+// ============================================================
+function confettiBurst() {
+    if (REDUCE_MOTION) return;
+    const colors = ["#4ade80", "#60a5fa", "#f472b6", "#fbbf24", "#a78bfa"];
+    const wrap = document.createElement("div");
+    wrap.className = "confetti-wrap";
+    const count = 90;
+    for (let i = 0; i < count; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti";
+        const startX = 50 + (Math.random() - 0.5) * 80;
+        piece.style.left = `${startX}%`;
+        piece.style.background = colors[i % colors.length];
+        piece.style.animationDelay = `${Math.random() * 0.3}s`;
+        piece.style.animationDuration = `${1.5 + Math.random() * 1.5}s`;
+        piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+        if (Math.random() > 0.5) piece.style.borderRadius = "50%";
+        wrap.appendChild(piece);
+    }
+    document.body.appendChild(wrap);
+    setTimeout(() => wrap.remove(), 3500);
+}
+
+// ============================================================
+// MOUSE LIGHT  ·  follows the cursor
+// ============================================================
+function initMouseLight() {
+    if (REDUCE_MOTION) return;
+    // Skip on touch-primary devices — no cursor to follow
+    if (window.matchMedia && window.matchMedia("(hover: none), (pointer: coarse)").matches) return;
+
+    const light = document.createElement("div");
+    light.className = "mouse-light";
+    document.body.appendChild(light);
+
+    let tx = 0, ty = 0, x = 0, y = 0, dirty = false;
+    document.addEventListener("mousemove", e => {
+        tx = e.clientX;
+        ty = e.clientY;
+        dirty = true;
+    }, { passive: true });
+
+    function loop() {
+        if (dirty) {
+            x += (tx - x) * 0.15;
+            y += (ty - y) * 0.15;
+            light.style.transform = `translate(calc(${x}px - 50%), calc(${y}px - 50%))`;
+            if (Math.abs(tx - x) < 0.5 && Math.abs(ty - y) < 0.5) dirty = false;
+        }
+        requestAnimationFrame(loop);
+    }
+    loop();
+}
+
+// ============================================================
+// EASTER EGGS
+// ============================================================
+function bindEasterEggs() {
+    // Konami
+    const code = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+    let idx = 0;
+    document.addEventListener("keydown", e => {
+        const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+        const expected = code[idx];
+        if (key === expected) {
+            idx++;
+            if (idx === code.length) {
+                triggerRainmaker();
+                idx = 0;
+            }
+        } else if (key === code[0]) {
+            idx = 1;
+        } else {
+            idx = 0;
+        }
+    });
+
+    // Logo click counter (5 clicks → confetti)
+    let logoClicks = 0;
+    let logoTimer = null;
+    document.querySelector(".brand")?.addEventListener("click", e => {
+        e.preventDefault();
+        logoClicks++;
+        clearTimeout(logoTimer);
+        logoTimer = setTimeout(() => { logoClicks = 0; }, 1200);
+        if (logoClicks >= 5) {
+            confettiBurst();
+            const mark = document.querySelector(".brand-mark");
+            if (mark) {
+                mark.classList.add("celebrate");
+                setTimeout(() => mark.classList.remove("celebrate"), 1500);
+            }
+            toast("🌱 You found a secret. Stay curious.", { tone: "success" });
+            logoClicks = 0;
+        }
+    });
+
+    // ? → keyboard shortcuts
+    document.addEventListener("keydown", e => {
+        if (e.target.matches("input, select, textarea")) return;
+        if (e.key === "?") {
+            e.preventDefault();
+            showShortcutHelp();
+        }
+        if (e.key === "r" && !e.metaKey && !e.ctrlKey) {
+            // Quick-run trigger
+            const form = document.getElementById("simulation-form");
+            if (form && state.selectedCrops.length > 0) {
+                form.dispatchEvent(new Event("submit", { cancelable: true }));
+            }
+        }
+    });
+}
+
+function triggerRainmaker() {
+    if (REDUCE_MOTION) return;
+    const rain = document.createElement("div");
+    rain.className = "rainmaker";
+    for (let i = 0; i < 80; i++) {
+        const drop = document.createElement("div");
+        drop.className = "raindrop";
+        drop.style.left = `${Math.random() * 100}%`;
+        drop.style.animationDelay = `${Math.random() * 1.8}s`;
+        drop.style.animationDuration = `${0.9 + Math.random() * 1.6}s`;
+        drop.style.opacity = `${0.4 + Math.random() * 0.4}`;
+        rain.appendChild(drop);
+    }
+    document.body.appendChild(rain);
+    setTimeout(() => rain.remove(), 6000);
+    toast("☔ Rainmaker unlocked", { tone: "success", duration: 3500 });
+}
+
+function showShortcutHelp() {
+    openModal(`
+        <div class="help-modal card-modal">
+            <div class="card-modal-head">
+                <div class="ic-tile accent"><span data-icon="keyboard"></span></div>
+                <div>
+                    <h2>Keyboard shortcuts</h2>
+                    <div class="subtitle">Move faster — no mouse needed.</div>
+                </div>
+            </div>
+
+            <div class="help-grid">
+                <div class="help-row"><span>Switch to tab 1–5</span><span class="keys"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd><kbd>5</kbd></span></div>
+                <div class="help-row"><span>Quick-run simulation</span><span class="keys"><kbd>R</kbd></span></div>
+                <div class="help-row"><span>Close any popup</span><span class="keys"><kbd>Esc</kbd></span></div>
+                <div class="help-row"><span>Show this help</span><span class="keys"><kbd>?</kbd></span></div>
+                <div class="help-row hidden-shortcut"><span>Rainmaker mode 🌧</span><span class="keys"><kbd>↑↑↓↓←→←→BA</kbd></span></div>
+            </div>
+
+            <div class="help-footer">
+                <span data-icon="sparkles" style="vertical-align:middle"></span>
+                Try clicking the logo five times — there's a small surprise.
+            </div>
+        </div>
+    `, { size: "sm" });
+}
+
+// ============================================================
+// FLOATING DOCK
+// ============================================================
+function bindFloatingDock() {
+    const dock = document.querySelector(".floating-dock");
+    if (!dock) return;
+
+    // Tab buttons
+    dock.querySelectorAll(".dock-item").forEach(item => {
+        item.addEventListener("click", () => {
+            const tab = item.dataset.tab;
+            if (tab) activateTab(tab);
+        });
+    });
+
+    // Run-simulation pill — always opens the config modal so the user can
+    // review crops & settings, then click Run inside the popup
+    const runBtn = document.getElementById("dock-run");
+    if (runBtn) {
+        runBtn.addEventListener("click", () => {
+            openConfigModal();
+        });
+    }
+
+    // Initial indicator position
+    setTimeout(positionDockIndicator, 50);
+    window.addEventListener("resize", positionDockIndicator, { passive: true });
+}
+
+function positionDockIndicator() {
+    const indicator = document.querySelector(".dock-indicator");
+    const active = document.querySelector(".dock-item.is-active");
+    if (!indicator || !active) return;
+    const bar = active.parentElement;
+    const rect = active.getBoundingClientRect();
+    const parentRect = bar.getBoundingClientRect();
+    indicator.style.width = `${rect.width}px`;
+    indicator.style.transform = `translateX(${rect.left - parentRect.left - 8}px)`;
+}
+
+// ============================================================
+// MULTI-LANGUAGE GREETING  (cycles every ~2.4s)
+// ============================================================
+const GREETINGS = [
+    { lang: "English",    text: "Hello" },
+    { lang: "हिन्दी",       text: "Namaste" },
+    { lang: "मराठी",       text: "Namaskar" },
+    { lang: "Español",    text: "Hola" },
+    { lang: "Français",   text: "Bonjour" },
+    { lang: "Deutsch",    text: "Hallo" },
+    { lang: "Italiano",   text: "Ciao" },
+    { lang: "Português",  text: "Olá" },
+    { lang: "日本語",       text: "こんにちは" },
+    { lang: "한국어",        text: "안녕" },
+    { lang: "中文",         text: "你好" },
+    { lang: "العربية",     text: "مرحبا" },
+    { lang: "Русский",    text: "Привет" },
+    { lang: "Ελληνικά",   text: "Γεια" },
+    { lang: "Türkçe",     text: "Merhaba" },
+    { lang: "Nederlands", text: "Hallo" },
+    { lang: "ਪੰਜਾਬੀ",       text: "Sat Sri Akaal" },
+    { lang: "தமிழ்",       text: "Vanakkam" },
+    { lang: "తెలుగు",      text: "Namaskaram" },
+    { lang: "বাংলা",       text: "Nomoshkar" },
+    { lang: "ภาษาไทย",   text: "Sawasdee" },
+    { lang: "Tiếng Việt", text: "Xin chào" },
+    { lang: "Kiswahili",  text: "Jambo" },
+    { lang: "עברית",      text: "Shalom" },
+    { lang: "Suomi",      text: "Hei" }
+];
+
+function initGreeting() {
+    const helloEl = document.getElementById("greeting-hello");
+    const langEl  = document.getElementById("greeting-lang");
+    const timeEl  = document.getElementById("greeting-time");
+    if (!helloEl) return;
+
+    function timeOfDay() {
+        const h = new Date().getHours();
+        if (h < 5)  return "still awake";
+        if (h < 12) return "good morning";
+        if (h < 17) return "good afternoon";
+        if (h < 21) return "good evening";
+        return "good night";
+    }
+    if (timeEl) timeEl.textContent = timeOfDay();
+
+    // Faster cycle — 1300ms interval, 200ms fade
+    let idx = 0;
+    function cycle() {
+        idx = (idx + 1) % GREETINGS.length;
+        const g = GREETINGS[idx];
+        helloEl.classList.add("is-fading");
+        if (langEl) langEl.classList.add("is-fading");
+        setTimeout(() => {
+            helloEl.textContent = g.text;
+            helloEl.setAttribute("data-lang", g.lang);
+            if (langEl) langEl.textContent = g.lang;
+            helloEl.classList.remove("is-fading");
+            if (langEl) langEl.classList.remove("is-fading");
+        }, 200);
+    }
+
+    if (!REDUCE_MOTION) {
+        setInterval(cycle, 1300);
+    }
+}
+
+// ============================================================
+// CLOCK + temperature on the greeting line
+// ============================================================
+function initClock() {
+    const clockEl = document.getElementById("greeting-clock");
+    if (!clockEl) return;
+
+    function tick() {
+        // Show local Ahmednagar time (IST = UTC+5:30)
+        const now = new Date();
+        const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+        const ist = new Date(utc + (5.5 * 60 * 60 * 1000));
+        const hh = String(ist.getHours()).padStart(2, "0");
+        const mm = String(ist.getMinutes()).padStart(2, "0");
+        clockEl.textContent = `${hh}:${mm} IST`;
+    }
+    tick();
+    setInterval(tick, 30000);
+
+    // The greeting-temp field gets the current temperature
+    // (renderWeather already sets it as soon as the weather API resolves)
+}
+
+// ============================================================
+// 3D GLOBE  (globe.gl + Three.js)
+// ============================================================
+function initGlobe() {
+    const container = document.getElementById("globe-container");
+    if (!container) return;
+
+    // Wait one frame so layout (width) is known
+    requestAnimationFrame(() => {
+        if (typeof Globe === "undefined" || typeof THREE === "undefined") {
+            console.warn("globe.gl not available — using CSS fallback");
+            container.classList.add("globe-fallback");
+            return;
+        }
+
+        try {
+            const size = container.offsetWidth || 360;
+
+            const globe = Globe()
+                .width(size)
+                .height(size)
+                .backgroundColor("rgba(0,0,0,0)")
+                .globeImageUrl("https://unpkg.com/three-globe@2.31.1/example/img/earth-dark.jpg")
+                .bumpImageUrl("https://unpkg.com/three-globe@2.31.1/example/img/earth-topology.png")
+                .showAtmosphere(true)
+                .atmosphereColor("#4ade80")
+                .atmosphereAltitude(0.18)
+                .pointsData([{
+                    lat: AHMEDNAGAR.lat,
+                    lng: AHMEDNAGAR.lon,
+                    label: "Ahmednagar Pilot Farm",
+                    size: 0.6,
+                    color: "#4ade80"
+                }])
+                .pointAltitude(0.05)
+                .pointColor("color")
+                .pointRadius("size")
+                .pointLabel(d => `<div style="background:#11141a;color:#fafafa;padding:6px 10px;border:1px solid rgba(255,255,255,.1);border-radius:6px;font-family:Inter;font-size:12px;">${d.label}</div>`)
+                .ringsData([{
+                    lat: AHMEDNAGAR.lat,
+                    lng: AHMEDNAGAR.lon,
+                    maxR: 4,
+                    propagationSpeed: 1.5,
+                    repeatPeriod: 2200
+                }])
+                .ringColor(() => t => `rgba(74, 222, 128, ${1 - t})`)
+                .ringMaxRadius("maxR")
+                .ringPropagationSpeed("propagationSpeed")
+                .ringRepeatPeriod("repeatPeriod")
+                (container);
+
+            // Auto-rotate; mouse-drag rotates manually
+            const controls = globe.controls();
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 0.6;
+            controls.enableZoom = false;
+            controls.enablePan = false;
+            controls.rotateSpeed = 0.4;
+
+            // Set initial viewpoint near Ahmednagar
+            globe.pointOfView({ lat: AHMEDNAGAR.lat, lng: AHMEDNAGAR.lon - 40, altitude: 2.4 }, 0);
+
+            // Resize handler
+            const resize = () => {
+                const w = container.offsetWidth || 360;
+                globe.width(w);
+                globe.height(w);
+            };
+            window.addEventListener("resize", resize, { passive: true });
+
+            // Pause auto-rotate while user drags
+            container.addEventListener("mousedown", () => { controls.autoRotate = false; });
+            container.addEventListener("mouseup", () => {
+                clearTimeout(state._globeResumeTimer);
+                state._globeResumeTimer = setTimeout(() => { controls.autoRotate = true; }, 2500);
+            });
+            container.addEventListener("touchstart", () => { controls.autoRotate = false; }, { passive: true });
+            container.addEventListener("touchend", () => {
+                clearTimeout(state._globeResumeTimer);
+                state._globeResumeTimer = setTimeout(() => { controls.autoRotate = true; }, 2500);
+            });
+
+            state.globe = globe;
+        } catch (e) {
+            console.error("Globe init failed", e);
+            container.classList.add("globe-fallback");
+        }
+    });
+}
+
+// ============================================================
+// THEME TOGGLE  (dark / light)
+// ============================================================
+function initTheme() {
+    // Saved → preferred → default dark
+    const saved = localStorage.getItem("aqua-theme");
+    let theme = saved;
+    if (!theme) {
+        const prefersLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+        theme = prefersLight ? "light" : "dark";
+    }
+    setTheme(theme, false);
+
+    const btn = document.getElementById("theme-toggle");
+    if (btn) {
+        btn.addEventListener("click", () => {
+            const cur = document.documentElement.dataset.theme || "dark";
+            const next = cur === "dark" ? "light" : "dark";
+            setTheme(next, true);
+        });
+    }
+}
+
+function setTheme(theme, animate) {
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem("aqua-theme", theme);
+
+    if (animate) {
+        toast(theme === "light" ? "Light mode" : "Dark mode", { tone: "info", duration: 1600 });
+        // Subtle confetti burst on switch
+        if (!REDUCE_MOTION && Math.random() < 0.18) confettiBurst();
+    }
+}
+

@@ -1,4 +1,4 @@
 scheduler,total_irrigation,stress_days,irrigated_days,water_saved_vs_baseline,water_saving_percent
 Baseline,2.56,64,64,0.0,0.0
-Smart SAR + Uncertainty,2.1378,0,196,0.4222,16.49
-Batch Smart Scheduler,2.12,0,75,0.44,17.19
+Smart SAR + Uncertainty,1.9519,0,196,0.6081,23.75
+Batch Smart Scheduler,1.9356,0,72,0.6244,24.39

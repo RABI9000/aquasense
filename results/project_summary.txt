@@ -1,25 +1,25 @@
 SMART IRRIGATION SYSTEM
 
 Crop:
-barley (mid)
-Kc: 1.15
+sorghum (mid)
+Kc: 1.05
 
 RMSE: 0.0095
 
 Comparison:
               scheduler  total_irrigation  stress_days  irrigated_days  water_saved_vs_baseline  water_saving_percent
                Baseline            2.5600           64              64                   0.0000                  0.00
-Smart SAR + Uncertainty            2.1378            0             196                   0.4222                 16.49
-  Batch Smart Scheduler            2.1200            0              75                   0.4400                 17.19
+Smart SAR + Uncertainty            1.9519            0             196                   0.6081                 23.75
+  Batch Smart Scheduler            1.9356            0              72                   0.6244                 24.39
 
 Batch:
-Total: 2.1200
-Days: 75
+Total: 1.9356
+Days: 72
 
 Next 5 Days:
  forecast_day  forecast_rainfall  forecast_temperature  predicted_soil_moisture  uncertainty  risk_adjusted_moisture  irrigation_mm  irrigation_liters  adjusted_moisture
-            1                2.1                  29.7                   0.6027       0.0303                  0.5906         0.0166              67.07             0.6135
-            2                0.2                  29.6                   0.6105       0.0377                  0.5954         0.0110              44.58             0.6177
-            3                1.9                  30.1                   0.6115       0.0359                  0.5971         0.0091              36.65             0.6174
-            4                0.4                  30.8                   0.6113       0.0351                  0.5973         0.0089              36.06             0.6171
-            5                0.3                  31.3                   0.6162       0.0379                  0.6010         0.0046              18.52             0.6192
+            1                2.7                  29.9                   0.6027       0.0303                  0.5906         0.0151              61.24             0.6125
+            2                0.3                  29.8                   0.6105       0.0377                  0.5954         0.0101              40.70             0.6170
+            3                0.6                  30.0                   0.6115       0.0359                  0.5971         0.0083              33.47             0.6169
+            4                0.0                  30.9                   0.6113       0.0354                  0.5971         0.0083              33.46             0.6167
+            5                2.4                  30.5                   0.6122       0.0363                  0.5977         0.0077              31.12             0.6172
