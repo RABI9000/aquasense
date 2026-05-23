@@ -15,3 +15,6 @@ data/raw/soil_properties
 # Jupyter
 .ipynb_checkpoints/
 
+venv_311/
+__pycache__/
+*.pyc
