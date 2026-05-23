@@ -81,12 +81,18 @@ def train_model(df):
 
 def run_model_comparison(df):
     from sklearn.ensemble import GradientBoostingRegressor
-    from tensorflow.keras.models import Sequential
-    from tensorflow.keras.layers import LSTM, Dense, Input
-    from tensorflow.keras.optimizers import Adam
     import numpy as np
     from sklearn.metrics import mean_absolute_error
     import time
+
+    # TensorFlow is heavy and optional; LSTM row is skipped if it can't be imported.
+    try:
+        from tensorflow.keras.models import Sequential
+        from tensorflow.keras.layers import LSTM, Dense, Input
+        from tensorflow.keras.optimizers import Adam
+        _HAS_TF = True
+    except Exception:
+        _HAS_TF = False
     
     ml_df = create_ml_dataset(df)
     moisture_col = "sar_corrected_moisture" if "sar_corrected_moisture" in ml_df.columns else "soil_moisture"
@@ -129,25 +135,27 @@ def run_model_comparison(df):
     gb_mae = mean_absolute_error(y_test, gb_preds)
     results.append({"Model": "Gradient Boosting", "RMSE": gb_rmse, "MAE": gb_mae, "Inference Time (ms)": gb_time})
 
-    # 3. LSTM
-    # Reshape for LSTM [samples, time steps, features]
-    # We will treat the window as 1 timestep with multiple features for simplicity in this baseline comparison
-    X_train_lstm = np.reshape(X_train.to_numpy(), (X_train.shape[0], 1, X_train.shape[1]))
-    X_test_lstm = np.reshape(X_test.to_numpy(), (X_test.shape[0], 1, X_test.shape[1]))
-    
-    lstm_model = Sequential()
-    lstm_model.add(Input(shape=(X_train_lstm.shape[1], X_train_lstm.shape[2])))
-    lstm_model.add(LSTM(50, activation='relu'))
-    lstm_model.add(Dense(1))
-    lstm_model.compile(optimizer=Adam(learning_rate=0.01), loss='mse')
-    
-    lstm_model.fit(X_train_lstm, y_train, epochs=20, batch_size=32, verbose=0)
-    
-    start_time = time.time()
-    lstm_preds = lstm_model.predict(X_test_lstm, verbose=0).flatten()
-    lstm_time = (time.time() - start_time) * 1000
-    lstm_rmse = mean_squared_error(y_test, lstm_preds) ** 0.5
-    lstm_mae = mean_absolute_error(y_test, lstm_preds)
-    results.append({"Model": "LSTM", "RMSE": lstm_rmse, "MAE": lstm_mae, "Inference Time (ms)": lstm_time})
+    # 3. LSTM (optional — requires TensorFlow)
+    if _HAS_TF:
+        try:
+            X_train_lstm = np.reshape(X_train.to_numpy(), (X_train.shape[0], 1, X_train.shape[1]))
+            X_test_lstm = np.reshape(X_test.to_numpy(), (X_test.shape[0], 1, X_test.shape[1]))
+
+            lstm_model = Sequential()
+            lstm_model.add(Input(shape=(X_train_lstm.shape[1], X_train_lstm.shape[2])))
+            lstm_model.add(LSTM(50, activation='relu'))
+            lstm_model.add(Dense(1))
+            lstm_model.compile(optimizer=Adam(learning_rate=0.01), loss='mse')
+
+            lstm_model.fit(X_train_lstm, y_train, epochs=20, batch_size=32, verbose=0)
+
+            start_time = time.time()
+            lstm_preds = lstm_model.predict(X_test_lstm, verbose=0).flatten()
+            lstm_time = (time.time() - start_time) * 1000
+            lstm_rmse = mean_squared_error(y_test, lstm_preds) ** 0.5
+            lstm_mae = mean_absolute_error(y_test, lstm_preds)
+            results.append({"Model": "LSTM", "RMSE": lstm_rmse, "MAE": lstm_mae, "Inference Time (ms)": lstm_time})
+        except Exception as e:
+            print(f"[ml_model] LSTM comparison skipped: {e}")
 
     return pd.DataFrame(results)

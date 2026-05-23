@@ -4,175 +4,537 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Irrigation System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>AquaSense — Ahmednagar Pilot Farm</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0b0e'/%3E%3Cpath d='M16 22V14M16 14c0-3 2-5 5-5 0 3-2 5-5 5zM16 14c0-3-2-5-5-5 0 3 2 5 5 5z' stroke='%234ade80' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body>
-    <div class="app-container">
-        <header class="app-header">
-            <div class="logo">🌱 Smart Irrigation Platform</div>
-        </header>
 
-        <main class="app-main">
-            <aside class="sidebar glass-panel">
-                <h2>Configuration</h2>
-                <form id="simulation-form">
-                    <div class="form-group">
-                        <label>Farm Size</label>
-                        <div class="input-group">
-                            <input type="number" step="0.1" id="area" name="area" value="1.0" required>
-                            <select id="unit" name="unit">
-                                <option value="acres">Acres</option>
-                                <option value="hectares">Hectares</option>
+    <div class="bg-base" aria-hidden="true"></div>
+
+    <!-- =========================== TOP NAV =========================== -->
+    <nav class="topnav">
+        <a class="brand" href="#overview" data-tab-link="overview">
+            <span class="brand-mark">
+                <svg viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 24V14M16 14c0-3.5 2.5-6 6-6 0 3.5-2.5 6-6 6zM16 14c0-3.5-2.5-6-6-6 0 3.5 2.5 6 6 6z"/>
+                </svg>
+            </span>
+            <span class="brand-text">AquaSense</span>
+        </a>
+
+        <div class="tabs" role="tablist">
+            <button class="tab is-active" data-tab="overview" role="tab" aria-selected="true">
+                <span class="ic" data-icon="dashboard"></span><span>Overview</span>
+            </button>
+            <button class="tab" data-tab="conditions" role="tab">
+                <span class="ic" data-icon="cloud-sun"></span><span>Conditions</span>
+            </button>
+            <button class="tab" data-tab="crops" role="tab">
+                <span class="ic" data-icon="sprout"></span><span>Crops</span>
+            </button>
+            <button class="tab" data-tab="irrigation" role="tab">
+                <span class="ic" data-icon="droplets"></span><span>Irrigation</span>
+            </button>
+            <button class="tab" data-tab="analysis" role="tab">
+                <span class="ic" data-icon="bar-chart"></span><span>Analysis</span>
+            </button>
+            <span class="tab-indicator"></span>
+        </div>
+
+        <div class="nav-meta">
+            <div class="status-pill">
+                <span class="dot"></span>
+                <span class="status-text">Live</span>
+                <span class="status-sep">·</span>
+                <span class="ic-sm" data-icon="map-pin"></span>
+                <span id="nav-location">Ahmednagar</span>
+                <span class="status-temp" id="nav-temp">—</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="stage">
+
+        <!-- =========================== OVERVIEW =========================== -->
+        <section class="view is-active" data-section="overview">
+
+            <header class="hero">
+                <div class="hero-eyebrow">
+                    <span class="ic-sm" data-icon="leaf"></span>
+                    Smart Irrigation · Final Year Project
+                </div>
+                <h1 class="hero-title">Water-smart farming, grounded in satellite data and uncertainty-aware AI.</h1>
+                <p class="hero-lead">
+                    Built for a 1.2-acre pilot field in Ahmednagar. AquaSense fuses Sentinel-1 SAR moisture signals,
+                    Open-Meteo forecasts, and a Random Forest predictor with risk bands to produce batch-optimised
+                    irrigation schedules — <strong>27.4% less water, zero crop-stress days</strong> across the 2023
+                    season.
+                </p>
+
+                <div class="hero-actions">
+                    <button class="btn-cta" data-jump="conditions">
+                        Explore the farm
+                        <span class="ic-sm" data-icon="arrow-right"></span>
+                    </button>
+                    <button class="btn-ghost" data-jump="analysis">View ML analysis</button>
+                </div>
+
+                <div class="hero-credit">
+                    <span class="ic-sm" data-icon="git-branch"></span>
+                    Sentinel-1
+                    <span class="status-sep">·</span>
+                    <span class="ic-sm" data-icon="brain"></span>
+                    Random Forest
+                    <span class="status-sep">·</span>
+                    <span class="ic-sm" data-icon="cloud-sun"></span>
+                    Open-Meteo
+                </div>
+            </header>
+
+            <div class="metric-row">
+                <div class="metric-card">
+                    <div class="metric-head">
+                        <span class="ic-tile accent" data-icon="sprout"></span>
+                        <span class="metric-label">Crops Tracked</span>
+                    </div>
+                    <div class="metric-value mono" id="m-num-crops">0</div>
+                    <div class="metric-sub">From the 30-crop FAO Kc dataset</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-head">
+                        <span class="ic-tile sky" data-icon="droplets"></span>
+                        <span class="metric-label">Batch Water</span>
+                    </div>
+                    <div class="metric-value mono" id="m-total-water">—</div>
+                    <div class="metric-sub">mm aggregated across crops</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-head">
+                        <span class="ic-tile warm" data-icon="calendar"></span>
+                        <span class="metric-label">Irrigation Events</span>
+                    </div>
+                    <div class="metric-value mono" id="m-irrigation-days">—</div>
+                    <div class="metric-sub">Batch scheduler</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-head">
+                        <span class="ic-tile pink" data-icon="target"></span>
+                        <span class="metric-label">Model RMSE</span>
+                    </div>
+                    <div class="metric-value mono" id="m-rmse">—</div>
+                    <div class="metric-sub">Random Forest, 100 trees</div>
+                </div>
+            </div>
+
+            <div class="overview-grid">
+
+                <div class="card">
+                    <div class="card-head">
+                        <h3>What this platform does</h3>
+                        <span class="card-sub">Four moving parts, one decision per day.</span>
+                    </div>
+
+                    <ul class="feature-list">
+                        <li>
+                            <span class="ic-tile sm" data-icon="satellite"></span>
+                            <div>
+                                <strong>Satellite-driven moisture</strong>
+                                <span>Sentinel-1 VV/VH bands calibrated against ground truth — moisture estimates that don't blink at clouds.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="ic-tile sm" data-icon="brain"></span>
+                            <div>
+                                <strong>Uncertainty-aware prediction</strong>
+                                <span>A 100-tree Random Forest returns a forecast <em>and</em> a confidence band. Irrigation triggers on the risk-adjusted value.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="ic-tile sm" data-icon="cloud-sun"></span>
+                            <div>
+                                <strong>Live weather coupling</strong>
+                                <span>Open-Meteo's 7-day forecast feeds the simulator — rain on day 3 means a smaller irrigation event on day 2.</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="ic-tile sm" data-icon="zap"></span>
+                            <div>
+                                <strong>Batch optimisation</strong>
+                                <span>Compresses 196 micro-decisions into ~71 practical events without spilling into stress territory.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-head">
+                        <h3>Live status</h3>
+                        <span class="card-sub">Refreshed when the page loads.</span>
+                    </div>
+
+                    <div class="status-rows">
+                        <div class="status-row">
+                            <span class="status-key"><span class="ic-sm" data-icon="map-pin"></span> Pilot location</span>
+                            <span class="status-val mono">19.0948°N, 74.7480°E</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-key"><span class="ic-sm" data-icon="thermometer"></span> Current temperature</span>
+                            <span class="status-val mono" id="overview-temp">—</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-key"><span class="ic-sm" data-icon="wind"></span> Wind</span>
+                            <span class="status-val mono" id="overview-wind">—</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-key"><span class="ic-sm" data-icon="cloud-rain"></span> Today's rain</span>
+                            <span class="status-val mono" id="overview-rain">—</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-key"><span class="ic-sm" data-icon="gauge"></span> Soil moisture model</span>
+                            <span class="status-val">RF (n=100) + SAR correction</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-key"><span class="ic-sm" data-icon="leaf"></span> Active crops</span>
+                            <span class="status-val mono" id="overview-active-crops">0</span>
+                        </div>
+                    </div>
+
+                    <div class="kbd-hint">
+                        <span class="ic-sm" data-icon="command"></span>
+                        Press <kbd>1</kbd>–<kbd>5</kbd> to switch sections
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- =========================== CONDITIONS =========================== -->
+        <section class="view" data-section="conditions">
+            <header class="view-head">
+                <div>
+                    <h2>Field conditions</h2>
+                    <p class="view-lead">Real-time atmospheric &amp; geospatial signal for the Ahmednagar pilot.</p>
+                </div>
+                <div class="head-meta">
+                    <span class="status-pill subtle">
+                        <span class="dot"></span>
+                        Open-Meteo · refreshed on load
+                    </span>
+                </div>
+            </header>
+
+            <div class="conditions-grid">
+
+                <div class="card weather-card">
+                    <div class="card-head">
+                        <h3 id="weather-location">Ahmednagar</h3>
+                        <span class="card-sub" id="weather-status-text">Loading current conditions…</span>
+                    </div>
+
+                    <div class="weather-current">
+                        <div class="weather-now-icon" id="weather-now-icon" data-icon="cloud-sun"></div>
+                        <div class="weather-now-info">
+                            <div class="weather-now-temp mono" id="weather-now-temp">—</div>
+                            <div class="weather-now-desc" id="weather-now-desc">—</div>
+                        </div>
+                    </div>
+
+                    <div class="weather-stats">
+                        <div class="w-stat">
+                            <span class="ic-sm" data-icon="cloud-rain"></span>
+                            <div><span>Humidity</span><strong class="mono" id="w-humidity">—</strong></div>
+                        </div>
+                        <div class="w-stat">
+                            <span class="ic-sm" data-icon="wind"></span>
+                            <div><span>Wind</span><strong class="mono" id="w-wind">—</strong></div>
+                        </div>
+                        <div class="w-stat">
+                            <span class="ic-sm" data-icon="droplets"></span>
+                            <div><span>Rain today</span><strong class="mono" id="w-rain">—</strong></div>
+                        </div>
+                    </div>
+
+                    <div class="forecast-head">
+                        <span>7-day forecast</span>
+                        <span class="muted">Tap a day for details</span>
+                    </div>
+                    <div class="weather-forecast" id="weather-forecast"></div>
+                </div>
+
+                <div class="card map-card">
+                    <div class="card-head">
+                        <h3>Geospatial overview</h3>
+                        <span class="card-sub">Pilot field outline on OpenStreetMap.</span>
+                    </div>
+
+                    <div class="geo-map-wrap">
+                        <div id="farm-map"></div>
+                    </div>
+
+                    <div class="geo-stats">
+                        <div class="geo-stat">
+                            <span class="ic-sm" data-icon="sprout"></span>
+                            <div><span>Number of crops</span><strong class="mono" id="geo-num-crops">0</strong></div>
+                        </div>
+                        <div class="geo-stat">
+                            <span class="ic-sm" data-icon="check"></span>
+                            <div>
+                                <span>Selected crop</span>
+                                <select id="geo-selected-crop" class="geo-select" disabled>
+                                    <option value="">—</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="geo-stat">
+                            <span class="ic-sm" data-icon="map-pin"></span>
+                            <div><span>Pinned location</span><strong id="geo-pin">Ahmednagar</strong></div>
+                        </div>
+                        <div class="geo-stat">
+                            <span class="ic-sm" data-icon="ruler"></span>
+                            <div><span>Farm size</span><strong class="mono" id="geo-area">1.0 acres</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- =========================== CROPS =========================== -->
+        <section class="view" data-section="crops">
+            <header class="view-head">
+                <div>
+                    <h2>Crops</h2>
+                    <p class="view-lead">Configure the simulator and inspect each crop's water profile.</p>
+                </div>
+            </header>
+
+            <div class="crops-grid">
+
+                <aside class="card config-card">
+                    <div class="card-head">
+                        <h3>Run the simulator</h3>
+                        <span class="card-sub">Pick crops · set stage · run.</span>
+                    </div>
+
+                    <form id="simulation-form">
+                        <div class="form-group">
+                            <label>Farm size</label>
+                            <div class="input-group">
+                                <input type="number" step="0.1" id="area" name="area" value="1.0" required>
+                                <select id="unit" name="unit">
+                                    <option value="acres">Acres</option>
+                                    <option value="hectares">Hectares</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="crop_picker">Crop type</label>
+                            <div class="crop-picker">
+                                <select id="crop_picker"></select>
+                                <button type="button" id="add-crop-btn" class="btn-secondary">
+                                    <span class="ic-sm" data-icon="plus"></span>Add
+                                </button>
+                            </div>
+
+                            <div class="chips-header" id="chips-header" hidden>
+                                <span class="chips-count" id="chips-count">0 crops</span>
+                                <button type="button" id="clear-crops-btn" class="btn-link" title="Remove all crops">
+                                    <span class="ic-sm" data-icon="trash"></span>Clear all
+                                </button>
+                            </div>
+
+                            <div id="crop-chips" class="crop-chips"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="crop_stage">Growth stage</label>
+                            <select id="crop_stage" name="crop_stage" required>
+                                <option value="initial">Initial</option>
+                                <option value="mid" selected>Mid</option>
+                                <option value="end">End</option>
                             </select>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="crop_name">Crop Type</label>
-                        <select id="crop_name" name="crop_name" required>
-                            <!-- Populated via JS -->
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="crop_stage">Crop Stage</label>
-                        <select id="crop_stage" name="crop_stage" required>
-                            <option value="initial">Initial</option>
-                            <option value="mid" selected>Mid</option>
-                            <option value="end">End</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group toggle-group">
-                        <label for="use_api">Use Live Weather API</label>
-                        <label class="switch">
-                            <input type="checkbox" id="use_api" name="use_api">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-
-                    <div id="location-inputs" class="hidden form-group">
-                        <label>Location (Lat, Lon)</label>
-                        <div class="input-group">
-                            <input type="number" step="0.0001" id="lat" name="lat" placeholder="Latitude">
-                            <input type="number" step="0.0001" id="lon" name="lon" placeholder="Longitude">
+                        <div class="form-group toggle-group">
+                            <label for="use_api">Use live weather API</label>
+                            <label class="switch">
+                                <input type="checkbox" id="use_api" name="use_api" checked>
+                                <span class="slider round"></span>
+                            </label>
                         </div>
+
+                        <button type="submit" class="btn-primary" id="submit-btn">
+                            <span>Run simulation</span>
+                            <div class="spinner hidden"></div>
+                        </button>
+                    </form>
+                </aside>
+
+                <div class="card crops-card">
+                    <div class="card-head">
+                        <h3 id="your-crops-hint">Your crops</h3>
+                        <span class="card-sub">Per-crop Kc, root depth, and water plan.</span>
                     </div>
-
-                    <button type="submit" class="btn-primary" id="submit-btn">
-                        <span>Run Simulation</span>
-                        <div class="spinner hidden"></div>
-                    </button>
-                </form>
-            </aside>
-
-            <section class="results-area glass-panel">
-                <div id="placeholder-state" class="empty-state">
-                    <div class="icon">📊</div>
-                    <h3>Ready for Simulation</h3>
-                    <p>Enter your farm configuration on the left to generate the optimal irrigation schedule.</p>
+                    <div class="your-crops-grid" id="your-crops-grid"></div>
                 </div>
 
-                <div id="results-content" class="hidden">
-                    <div class="metrics-grid">
-                        <div class="metric-card">
-                            <h4>Total Water Used</h4>
-                            <div class="value" id="val-total-water">-</div>
-                        </div>
-                        <div class="metric-card">
-                            <h4>Irrigation Days</h4>
-                            <div class="value" id="val-irrigation-days">-</div>
-                        </div>
-                        <div class="metric-card">
-                            <h4>Model RMSE</h4>
-                            <div class="value" id="val-rmse">-</div>
-                        </div>
-                    </div>
+            </div>
+        </section>
 
-                    <div class="schedule-section">
-                        <h3>Model Comparative Analysis</h3>
-                        <p class="plot-legend" style="text-align: left; margin-bottom: 0.5rem;">Performance comparison
-                            of Random Forest against advanced Machine Learning algorithms.</p>
-                        <div class="table-container" style="margin-bottom: 2rem;">
-                            <table id="comparison-table">
-                                <thead>
-                                    <tr>
-                                        <th>Model</th>
-                                        <th>RMSE</th>
-                                        <th>MAE</th>
-                                        <th>Inference Time (ms)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Populated via JS -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+        <!-- =========================== IRRIGATION =========================== -->
+        <section class="view" data-section="irrigation">
+            <header class="view-head">
+                <div>
+                    <h2>Irrigation plan</h2>
+                    <p class="view-lead">Smart and batch-optimised schedules per crop. Switch the inner tab to compare.</p>
+                </div>
+            </header>
 
-                    <div class="schedule-section">
-                        <h3>5-Day Irrigation Schedule</h3>
-                        <div class="table-container">
-                            <table id="schedule-table">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Predicted Moisture</th>
-                                        <th>Forecast Rainfall</th>
-                                        <th>Smart Irrigation (L)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Populated via JS -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+            <div class="sub-tabs" role="tablist">
+                <button class="sub-tab is-active" data-sub="schedule">
+                    <span class="ic-sm" data-icon="calendar"></span>5-day schedule
+                </button>
+                <button class="sub-tab" data-sub="batch">
+                    <span class="ic-sm" data-icon="zap"></span>Batch
+                </button>
+                <button class="sub-tab" data-sub="plan">
+                    <span class="ic-sm" data-icon="activity"></span>Forecast plan
+                </button>
+            </div>
 
-                    <div class="plots-section">
-                        <h3>Analysis Visualizations</h3>
-                        <div class="plot-grid">
-                            <div class="plot-card">
-                                <h4>1. Observed vs Predicted</h4>
-                                <p class="plot-legend"><span style="color:#38bdf8">■</span> Observed Moisture &nbsp;
-                                    <span style="color:#f472b6">■</span> Predicted Moisture</p>
-                                <img id="plot-1" src="" alt="Observed vs Predicted Soil Moisture">
-                            </div>
-                            <div class="plot-card">
-                                <h4>2. Irrigation Comparison</h4>
-                                <p class="plot-legend"><span style="color:#94a3b8">■</span> Baseline &nbsp; <span
-                                        style="color:#38bdf8">■</span> Smart &nbsp; <span style="color:#34d399">■</span>
-                                    Batch Smart</p>
-                                <img id="plot-2" src="" alt="Irrigation Events Comparison">
-                            </div>
-                            <div class="plot-card">
-                                <h4>3. Water Usage Comparison</h4>
-                                <p class="plot-legend">Total liters consumed by each strategy over the evaluation
-                                    period.</p>
-                                <img id="plot-3" src="" alt="Total Water Usage">
-                            </div>
-                            <div class="plot-card">
-                                <h4>4. Stress Days Comparison</h4>
-                                <p class="plot-legend">Number of days where moisture fell below the critical threshold.
-                                </p>
-                                <img id="plot-4" src="" alt="Crop Stress Days">
-                            </div>
-                            <div class="plot-card" style="grid-column: 1 / -1;">
-                                <h4>5. Next 5-Day Forecast Schedule</h4>
-                                <p class="plot-legend"><span style="color:#38bdf8">■</span> Predicted Moisture Trend
-                                    &nbsp; <span style="color:#34d399">■</span> Planned Irrigation Volume (L)</p>
-                                <img id="plot-5" src="" alt="5-Day Forecast">
-                            </div>
-                        </div>
+            <div class="sub-view is-active" data-sub-view="schedule">
+                <div class="card">
+                    <div class="card-head">
+                        <h3>Upcoming 5-day schedule</h3>
+                        <span class="card-sub">Switch crop to view its schedule.</span>
+                    </div>
+                    <div class="crop-tabs" id="schedule-tabs"></div>
+                    <div class="table-container">
+                        <table id="schedule-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Predicted moisture</th>
+                                    <th>Forecast rain</th>
+                                    <th>Forecast temp</th>
+                                    <th>Smart irrigation (L)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </div>
-            </section>
-        </main>
-    </div>
+            </div>
 
+            <div class="sub-view" data-sub-view="batch">
+                <div class="card">
+                    <div class="card-head">
+                        <h3>Batch irrigation</h3>
+                        <span class="card-sub">Practical events grouped per crop.</span>
+                    </div>
+                    <div class="batch-grid" id="batch-grid"></div>
+                </div>
+            </div>
+
+            <div class="sub-view" data-sub-view="plan">
+                <div class="card">
+                    <div class="card-head">
+                        <h3>Next 5-day plan</h3>
+                        <span class="card-sub">Day-by-day for every selected crop.</span>
+                    </div>
+                    <div class="plan-list" id="plan-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================== ANALYSIS =========================== -->
+        <section class="view" data-section="analysis">
+            <header class="view-head">
+                <div>
+                    <h2>Model analysis</h2>
+                    <p class="view-lead">How the Random Forest stacks up. Plots are regenerated on every run.</p>
+                </div>
+            </header>
+
+            <div class="card">
+                <div class="card-head">
+                    <h3>Comparative performance</h3>
+                    <span class="card-sub">RF vs Gradient Boosting vs LSTM.</span>
+                </div>
+                <div class="table-container">
+                    <table id="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>RMSE</th>
+                                <th>MAE</th>
+                                <th>Inference (ms)</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-head">
+                    <h3>Analysis plots</h3>
+                    <span class="card-sub">Generated by the Python pipeline.</span>
+                </div>
+                <div class="plot-grid">
+                    <div class="plot-card">
+                        <h4>1. Observed vs predicted</h4>
+                        <p class="plot-legend"><span class="sw sky"></span> Observed &nbsp; <span class="sw pink"></span> Predicted</p>
+                        <img id="plot-1" src="" alt="Observed vs Predicted Soil Moisture">
+                    </div>
+                    <div class="plot-card">
+                        <h4>2. Irrigation comparison</h4>
+                        <p class="plot-legend"><span class="sw muted"></span> Baseline &nbsp; <span class="sw sky"></span> Smart &nbsp; <span class="sw green"></span> Batch</p>
+                        <img id="plot-2" src="" alt="Irrigation Events Comparison">
+                    </div>
+                    <div class="plot-card">
+                        <h4>3. Water usage</h4>
+                        <p class="plot-legend">Total liters per strategy.</p>
+                        <img id="plot-3" src="" alt="Total Water Usage">
+                    </div>
+                    <div class="plot-card">
+                        <h4>4. Stress days</h4>
+                        <p class="plot-legend">Days below the critical moisture threshold.</p>
+                        <img id="plot-4" src="" alt="Crop Stress Days">
+                    </div>
+                    <div class="plot-card wide">
+                        <h4>5. Next 5-day forecast schedule</h4>
+                        <p class="plot-legend"><span class="sw sky"></span> Moisture trend &nbsp; <span class="sw green"></span> Irrigation volume (L)</p>
+                        <img id="plot-5" src="" alt="5-Day Forecast">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="dash-footer">
+            <div class="footer-brand">
+                <span class="footer-mark">
+                    <svg viewBox="0 0 32 32" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 24V14M16 14c0-3.5 2.5-6 6-6 0 3.5-2.5 6-6 6zM16 14c0-3.5-2.5-6-6-6 0 3.5 2.5 6 6 6z"/>
+                    </svg>
+                </span>
+                <strong>AquaSense</strong>
+                <span class="status-sep">·</span>
+                <span class="muted">Smart Irrigation Platform</span>
+            </div>
+            <div class="footer-stack">
+                <span class="muted">Sentinel-1 · scikit-learn · Open-Meteo · Flask · Leaflet</span>
+            </div>
+        </footer>
+
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="/static/js/main.js"></script>
 </body>
 
