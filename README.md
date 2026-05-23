@@ -1,4 +1,13 @@
-# 🌱 Smart Irrigation System using SAR + Machine Learning
+# 🌱 AquaSense — Smart Irrigation Platform
+
+> SAR + Machine Learning irrigation scheduler for the Ahmednagar pilot farm.
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/RABI9000/aquasense)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https%3A%2F%2Fgithub.com%2FRABI9000%2Faquasense)
+
+Live repo: <https://github.com/RABI9000/aquasense>
+
+See **[DEPLOY.md](./DEPLOY.md)** for the full deployment guide.
 
 ## 📌 Overview
 This project implements an **intelligent irrigation scheduling system** that combines:
